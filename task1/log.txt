@@ -1,0 +1,11 @@
+commit 3e98c3510887d80ea129db83ccd1db9078fb806d
+Author: Vitaliy <vitaliy.kostyukov@gmail.com>
+Date:   Wed Jun 9 11:48:37 2021 +0300
+
+    add task1/status.txt
+
+commit d0dff5bbcfd5bbff13cae0e3d968d35288ab7cc9
+Author: Vitaliy <vitaliy.kostyukov@gmail.com>
+Date:   Wed Jun 9 11:42:20 2021 +0300
+
+    add .gitignore
