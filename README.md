@@ -4,15 +4,25 @@ DevOps Exadel Internship 2021
 ## Task1: Git/GitHub 
 ### Create a new local repository
 ``` git init ``` 
-* git config --global user.email "Ваш e-mail" && git config --global user.name "Ваше имя" - задать следующие данные о себе
-* git status - проверить статус вашего репозитория
-* git commit -m “add .gitignore” - зафиксируйте изменения в локальном репозитории
-* git commit --amend -m “комментарий” - перезапись последнего коммита
-* git reset --soft <commit> “комментарий” - удалить из истории все, что после <commit>, но сохранить состояние рабочей директории
-* git revert <commit> “комментарий” - добавления коммита, который обращает <commit>, где <commit> - это идентификатор коммита, например, c9b93f7. Данная команда отменяет изменения, сделанные данным коммитом, не обязательно предшествующим. 
-* git remote add origin [url](http:// "URL"), где [url](http:// "URL") это ссылка на репозиторий - привязать удаленный репозиторий к локальному 
-* git push origin master - отправляем изменения, зафиксированные в локальном репозитории, на удаленный сервер
-* git clone [url](http:// "URL"), где [url](http:// "URL") - ссылка на наш репозиторий, клонируем репозиторий 
-* git pull (или git pull origin master, если вы не использовали команду git push -u origin master) - заберем изменения с удаленного репозитория   
+### Tell Git who you are
+``` git config --global user.email "Your e-mail" && git config --global user.name "Your name" ```
+### List the files you've changed and those you still need to add or commit
+``` git status ```
+### Commit changes to head (but not yet to the remote repository)
+``` git commit -m “add .gitignore” ``` 
+### Replace the tip of the current branch by creating a new commit
+``` git commit --amend -m “comment” ```
+### This form resets the current branch head to commit. Does not touch the index file or the working tree at all (but resets the head to commit, just like all modes do)
+``` git reset --soft <commit> “comment” ```
+### Used to record some new commits to reverse the effect of some earlier commits (often only a faulty one)
+``` git revert <commit> “comment” ```
+### Connect to a remote repository
+``` git remote add origin [url](http:// "URL") ```
+### Send changes to the master branch of your remote repository:
+``` git push origin master ```
+### Clones a repository into a newly created directory
+``` git clone [url](http:// "URL") ```
+### Send changes to the master branch of your remote repository
+``` git pull origin master ```   
   
 
