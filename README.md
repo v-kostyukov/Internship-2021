@@ -1,8 +1,9 @@
 # Internship-2021
 DevOps Exadel Internship 2021
 
-### Task1: Git/GitHub 
-* git init для создания нового локального репозитория
+## Task1: Git/GitHub 
+###Create a new local repository
+```git init``` 
 * git config --global user.email "Ваш e-mail" && git config --global user.name "Ваше имя" - задать следующие данные о себе
 * git status - проверить статус вашего репозитория
 * git commit -m “add .gitignore” - зафиксируйте изменения в локальном репозитории
