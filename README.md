@@ -17,11 +17,11 @@ DevOps Exadel Internship 2021
 ### Used to record some new commits to reverse the effect of some earlier commits (often only a faulty one)
 ``` git revert <commit> “comment” ```
 ### Connect to a remote repository
-``` git remote add origin [url](http:// "URL") ```
+``` git remote add origin <url>```
 ### Send changes to the master branch of your remote repository:
 ``` git push origin master ```
 ### Clones a repository into a newly created directory
-``` git clone [url](http:// "URL") ```
+``` git clone <url> ```
 ### Send changes to the master branch of your remote repository
 ``` git pull origin master ```   
   
