@@ -39,3 +39,5 @@ DevOps Exadel Internship 2021
 ``` aws configure ```
 ### URL web page "Hello world!" in AWS
 ``` http://52.30.126.226/ ```
+
+## Task 3: Docker
