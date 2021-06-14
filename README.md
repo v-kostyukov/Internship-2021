@@ -41,3 +41,13 @@ DevOps Exadel Internship 2021
 ``` http://52.30.126.226/ ```
 
 ## Task 3: Docker
+### Install Docker Linux Ubuntu
+```
+1. sudo apt-get update
+2. apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+3. curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+4. echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+5. sudo apt-get update
+6. sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
