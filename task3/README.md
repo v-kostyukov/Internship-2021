@@ -34,3 +34,13 @@ For more examples and ideas, visit:
 ``` docker run -it --rm -d -p 80:80 --name web -v ~/site-content:/usr/share/nginx/html nginx ```
 
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen2.png)
+````
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+--interactive , -i		Keep STDIN open even if not attached
+--tty , -t		    Allocate a pseudo-TTY
+--rm		        Automatically remove the container when it exits
+--detach , -d		Run container in background and print container ID
+--expose, -p		Expose a port or a range of ports
+--name		        Assign a name to the container
+--volume , -v		Bind mount a volume
+````
