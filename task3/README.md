@@ -98,7 +98,7 @@ curl -v http://18.157.183.49
 </html>
 * Connection #0 to host 18.157.183.49 left intact
 ```
-### EXTRA 3.1.1. Create docker image use clear basic images ubuntu
+### EXTRA 3.1.1. Create docker image use clear basic image ubuntu
 ``` 
 docker build -t mywebserver .
 Sending build context to Docker daemon  4.096kB
@@ -130,3 +130,23 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS    
 8f453c1874b0   mywebserver   "nginx -g 'daemon of…"   4 seconds ago   Up 3 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   myweb
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen3.png)
+### Add an environment variable "DEVOPS=username to your docker image
+````
+docker build -t web2 .
+Sending build context to Docker daemon  3.072kB
+Step 1/3 : FROM nginx:latest
+ ---> d1a364dc548d
+Step 2/3 : COPY ./index.html /usr/share/nginx/html/index.html
+ ---> Using cache
+ ---> 44f5fc17a0dd
+Step 3/3 : ENV DEVOPS="v-kostyukov"
+ ---> Running in 3719573cbf73
+Removing intermediate container 3719573cbf73
+ ---> 0a11598a54f4
+Successfully built 0a11598a54f4
+Successfully tagged web2:latest
+
+docker run --rm web2 sh -c 'echo $DEVOPS'
+v-kostyukov
+
+````
