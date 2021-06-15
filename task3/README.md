@@ -98,3 +98,35 @@ curl -v http://18.157.183.49
 </html>
 * Connection #0 to host 18.157.183.49 left intact
 ```
+### EXTRA 3.1.1. Create docker image use clear basic images ubuntu
+``` 
+docker build -t mywebserver .
+Sending build context to Docker daemon  4.096kB
+Step 1/5 : FROM ubuntu:18.04
+ ---> 81bcf752ac3d
+Step 2/5 : RUN apt-get update && apt-get install -y     build-essential     curl     wget     nginx   && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> b6047ba5b9d3
+Step 3/5 : COPY ./index.html /var/www/html
+ ---> 8f1cbf547ad2
+Step 4/5 : EXPOSE 80
+ ---> Running in 1b5d2f4e64b6
+Removing intermediate container 1b5d2f4e64b6
+ ---> c3acc232ba58
+Step 5/5 : CMD ["nginx", "-g", "daemon off;"]
+ ---> Running in 9f44a57fe93d
+Removing intermediate container 9f44a57fe93d
+ ---> 763c15c1546d
+Successfully built 763c15c1546d
+Successfully tagged mywebserver:latest
+
+docker image ls
+REPOSITORY    TAG       IMAGE ID       CREATED             SIZE
+mywebserver   latest    763c15c1546d   7 seconds ago       333MB
+
+docker run -it -d -p 80:80 --name myweb mywebserver
+docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                               NAMES
+8f453c1874b0   mywebserver   "nginx -g 'daemon of…"   4 seconds ago   Up 3 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   myweb
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen3.png)
