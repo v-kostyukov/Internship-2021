@@ -36,11 +36,65 @@ For more examples and ideas, visit:
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen2.png)
 ````
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
---interactive , -i		Keep STDIN open even if not attached
---tty , -t		    Allocate a pseudo-TTY
---rm		        Automatically remove the container when it exits
---detach , -d		Run container in background and print container ID
---expose, -p		Expose a port or a range of ports
---name		        Assign a name to the container
---volume , -v		Bind mount a volume
+--interactive , -i	Keep STDIN open even if not attached
+--tty , -t          Allocate a pseudo-TTY
+--rm                Automatically remove the container when it exits
+--detach , -d       Run container in background and print container ID
+--expose, -p        Expose a port or a range of ports
+--name              Assign a name to the container
+--volume , -v       Bind mount a volume
 ````
+### 3.1 Dockerfile for building a docker image. Docker image run nginx. Web application located inside the docker image. 
+
+``` 
+docker build -t webserver .
+Sending build context to Docker daemon  3.072kB
+Step 1/2 : FROM nginx:latest
+ ---> d1a364dc548d
+Step 2/2 : COPY ./index.html /usr/share/nginx/html/index.html
+ ---> 44f5fc17a0dd
+Successfully built 44f5fc17a0dd
+Successfully tagged webserver:latest
+
+docker image ls
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+webserver     latest    44f5fc17a0dd   20 seconds ago   133MB
+
+docker run -it --rm -d -p 80:80 --name web webserver
+docker ps
+CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                               NAMES
+32ad4dd9d7d7   webserver   "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   web
+
+curl -v http://18.157.183.49
+*   Trying 18.157.183.49:80...
+* TCP_NODELAY set
+* Connected to 18.157.183.49 (18.157.183.49) port 80 (#0)
+> GET / HTTP/1.1
+> Host: 18.157.183.49
+> User-Agent: curl/7.68.0
+> Accept: */*
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Server: nginx/1.21.0
+< Date: Tue, 15 Jun 2021 18:28:56 GMT
+< Content-Type: text/html
+< Content-Length: 193
+< Last-Modified: Tue, 15 Jun 2021 18:04:59 GMT
+< Connection: keep-alive
+< ETag: "60c8ebcb-c1"
+< Accept-Ranges: bytes
+<
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>3.1.</title>
+</head>
+<body>
+  <h1>Hello from Nginx container</h1>
+  <h1>Made by Vitaliy Kostyukov</h1>
+</body>
+</html>
+* Connection #0 to host 18.157.183.49 left intact
+```
