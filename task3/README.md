@@ -199,3 +199,49 @@ docker run -it -d -p 80:80 -e "DEVOPS=KOSTYUKOV" my-php-app
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen5.png)
 ![docker_environment_build_args_overview](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_environment_build_args_overview.png)
+### 4 Push your docker image to docker hub (https://hub.docker.com/)
+```
+https://hub.docker.com/repository/docker/kostyukov/my-php-app
+```
+### Login to a registry
+```
+docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: 
+Password:
+WARNING! Your password will be stored unencrypted in /home/ubuntu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+```
+### Create a tag
+```
+docker tag my-php-app:latest kostyukov/my-php-app:1.0
+docker images
+REPOSITORY             TAG          IMAGE ID       CREATED        SIZE
+kostyukov/my-php-app   1.0          b4beb06ebb25   15 hours ago   410MB
+my-php-app             latest       b4beb06ebb25   15 hours ago   410MB
+```
+### Push an image or a repository to a registry
+``` 
+docker push kostyukov/my-php-app:1.0
+The push refers to repository [docker.io/kostyukov/my-php-app]
+b661f7cb2447: Pushed
+5dc980197467: Mounted from library/php
+cc45506c4447: Mounted from library/php
+6ec4d4ce53cc: Mounted from library/php
+9a60d912a14f: Mounted from library/php
+ce60a0c97d4a: Mounted from library/php
+e1cd0107ea85: Mounted from library/php
+914a1eddd57a: Mounted from library/php
+0ff9183bd099: Mounted from library/php
+d666585087a1: Mounted from library/php
+bc0429138e0d: Mounted from library/php
+02eef72b445f: Mounted from library/php
+e45a78df7536: Mounted from library/php
+ddcd8d2fcf7e: Mounted from library/php
+87c8a1d8f54f: Mounted from library/php
+1.0: digest: sha256:b22610adb3da5c88958a8628fc9dfdfe5dc991ce117d51d6b29b2cd9f58f5707 size: 3449
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_hub.png)
