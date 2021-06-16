@@ -1,0 +1,12 @@
+# Exclude files and directories
+*/temp*
+*/*/temp*
+temp?
+
+*/tmp*
+*/*/tmp*
+tmp?
+
+*.md
+README-secret.md
+!README*.md

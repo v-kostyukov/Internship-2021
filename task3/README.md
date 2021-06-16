@@ -130,7 +130,7 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS    
 8f453c1874b0   mywebserver   "nginx -g 'daemon of…"   4 seconds ago   Up 3 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   myweb
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen3.png)
-### Add an environment variable "DEVOPS=username to your docker image
+### 3.2 Add an environment variable "DEVOPS=username to your docker image
 ````
 docker build -t web2 .
 Sending build context to Docker daemon  3.072kB
@@ -145,8 +145,54 @@ Removing intermediate container 3719573cbf73
  ---> 0a11598a54f4
 Successfully built 0a11598a54f4
 Successfully tagged web2:latest
-
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen4.png)
 docker run --rm web2 sh -c 'echo $DEVOPS'
 v-kostyukov
-
 ````
+### EXTRA 3.2.1. Print environment variable with the value on a web page (if environment variable changed after container restart - the web page must be updated with a new value)
+```
+docker build -t my-php-app .
+Sending build context to Docker daemon  4.096kB
+Step 1/4 : FROM php:7.2-apache
+7.2-apache: Pulling from library/php
+6ec7b7d162b2: Pull complete
+db606474d60c: Pull complete
+afb30f0cd8e0: Pull complete
+3bb2e8051594: Pull complete
+4c761b44e2cc: Pull complete
+c2199db96575: Pull complete
+1b9a9381eea8: Pull complete
+fd07bbc59d34: Pull complete
+72b73ab27698: Pull complete
+983308f4f0d6: Pull complete
+6c13f026e6da: Pull complete
+e5e6cd163689: Pull complete
+5c5516e56582: Pull complete
+154729f6ba86: Pull complete
+Digest: sha256:4dc0f0115acf8c2f0df69295ae822e49f5ad5fe849725847f15aa0e5802b55f8
+Status: Downloaded newer image for php:7.2-apache
+ ---> c61d277263e1
+Step 2/4 : COPY ./index.php /var/www/html
+ ---> b3c842223c0a
+Step 3/4 : ARG USERNAME="v-kostyukov"
+ ---> Running in a7e56513b9f7
+Removing intermediate container a7e56513b9f7
+ ---> 5eaa95026c54
+Step 4/4 : ENV DEVOPS=$USERNAME
+ ---> Running in a566b92543e9
+Removing intermediate container a566b92543e9
+ ---> b4beb06ebb25
+Successfully built b4beb06ebb25
+Successfully tagged my-php-app:latest
+
+docker run -d -p 80:80 --name myphpapp my-php-app
+ubuntu@ip-172-31-6-210:~/3.2.1$ docker ps
+CONTAINER ID   IMAGE        COMMAND                  CREATED         STATUS         PORTS                               NAMES
+48a3be7b14d8   my-php-app   "docker-php-entrypoi…"   6 seconds ago   Up 5 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   myphpapp
+
+docker exec -it myphpapp sh -c 'echo $DEVOPS'
+v-kostyukov
+
+docker run -it -d -p 80:80 -e "DEVOPS=KOSTYUKOV" my-php-app
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen5.png)
+```
