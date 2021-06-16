@@ -245,3 +245,8 @@ ddcd8d2fcf7e: Mounted from library/php
 1.0: digest: sha256:b22610adb3da5c88958a8628fc9dfdfe5dc991ce117d51d6b29b2cd9f58f5707 size: 3449
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_hub.png)
+### EXTRA 4.1. Integrate docker image to github repository. Create an automatic deployment for each push.
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_hub_builds.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_hub_tags.png)
+
+
