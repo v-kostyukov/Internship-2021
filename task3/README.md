@@ -131,7 +131,7 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS    
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen3.png)
 ### 3.2 Add an environment variable "DEVOPS=username to your docker image
-````
+```
 docker build -t web2 .
 Sending build context to Docker daemon  3.072kB
 Step 1/3 : FROM nginx:latest
@@ -145,10 +145,12 @@ Removing intermediate container 3719573cbf73
  ---> 0a11598a54f4
 Successfully built 0a11598a54f4
 Successfully tagged web2:latest
+```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen4.png)
+```
 docker run --rm web2 sh -c 'echo $DEVOPS'
 v-kostyukov
-````
+```
 ### EXTRA 3.2.1. Print environment variable with the value on a web page (if environment variable changed after container restart - the web page must be updated with a new value)
 ```
 docker build -t my-php-app .
@@ -194,5 +196,5 @@ docker exec -it myphpapp sh -c 'echo $DEVOPS'
 v-kostyukov
 
 docker run -it -d -p 80:80 -e "DEVOPS=KOSTYUKOV" my-php-app
-![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen5.png)
 ```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen5.png)
