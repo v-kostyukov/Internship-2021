@@ -198,3 +198,4 @@ v-kostyukov
 docker run -it -d -p 80:80 -e "DEVOPS=KOSTYUKOV" my-php-app
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/screen5.png)
+![docker_environment_build_args_overview](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_environment_build_args_overview.png)
