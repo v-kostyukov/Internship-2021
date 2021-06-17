@@ -248,5 +248,145 @@ ddcd8d2fcf7e: Mounted from library/php
 ### EXTRA 4.1. Integrate docker image to github repository. Create an automatic deployment for each push.
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_hub_builds.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/docker_hub_tags.png)
+### Create docker-compose file. EXTRA 5.1. Use env files to configure each service.
+### Install docker-compose
+````
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+````
+### Docker build
+```
+root@u2004:/home/vk/spring-petclinic# docker build --tag java-docker .
+Sending build context to Docker daemon  9.032MB
+Step 1/7 : FROM openjdk:16-alpine3.13
+16-alpine3.13: Pulling from library/openjdk
+4c0d98bf9879: Pull complete
+6f1834e342ac: Pull complete
+78f4563ac5cf: Pull complete
+Digest: sha256:49d822f4fa4deb5f9d0201ffeec9f4d113bcb4e7e49bd6bc063d3ba93aacbcae
+Status: Downloaded newer image for openjdk:16-alpine3.13
+ ---> 2aa8569968b8
+Step 2/7 : WORKDIR /app
+ ---> Running in 3f3e91fedfce
+Removing intermediate container 3f3e91fedfce
+ ---> d374b128d4fc
+Step 3/7 : COPY .mvn/ .mvn
+ ---> ab4615dea163
+Step 4/7 : COPY mvnw pom.xml ./
+ ---> a35fd4195da6
+Step 5/7 : RUN ./mvnw dependency:go-offline
+ ---> Running in bc6b8f74098f
+[INFO] Scanning for projects...
+Downloading from spring-snapshots: https://repo.spring.io/snapshot/org/springframework/boot/spring-boot-starter-parent/2.4.5/spring-boot-starter-parent-2.4.5.pom
+Downloading from spring-milestones: https://repo.spring.io/milestone/org/springframework/boot/spring-boot-starter-parent/2.4.5/spring-boot-starter-parent-2.4.5.pom
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-parent/2.4.5/spring-boot-starter-parent-2.4.5.pom
+...
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  07:13 min
+[INFO] Finished at: 2021-06-17T05:33:36Z
+[INFO] ------------------------------------------------------------------------
+Removing intermediate container bc6b8f74098f
+ ---> cb25f2ee8b0c
+Step 6/7 : COPY src ./src
+ ---> 63bbcf6ef261
+Step 7/7 : CMD ["./mvnw", "spring-boot:run"]
+ ---> Running in c896650ffbf4
+Removing intermediate container c896650ffbf4
+ ---> de620f2d47bb
+Successfully built de620f2d47bb
+Successfully tagged java-docker:latest
 
+docker images
+REPOSITORY    TAG             IMAGE ID       CREATED          SIZE
+java-docker   latest          de620f2d47bb   40 seconds ago   574MB
+openjdk       16-alpine3.13   2aa8569968b8   4 months ago     324MB
+```
+### Docker Compose
+```
+docker-compose up -d
+Creating network "spring-petclinic_default" with the default driver
+Creating volume "spring-petclinic_mysql_data" with default driver
+Creating volume "spring-petclinic_mysql_config" with default driver
+Pulling worker (kostyukov/my-php-app:)...
+latest: Pulling from kostyukov/my-php-app
+6ec7b7d162b2: Pull complete
+db606474d60c: Pull complete
+afb30f0cd8e0: Pull complete
+3bb2e8051594: Pull complete
+4c761b44e2cc: Pull complete
+c2199db96575: Pull complete
+1b9a9381eea8: Pull complete
+fd07bbc59d34: Pull complete
+72b73ab27698: Pull complete
+983308f4f0d6: Pull complete
+6c13f026e6da: Pull complete
+e5e6cd163689: Pull complete
+5c5516e56582: Pull complete
+154729f6ba86: Pull complete
+984b3e4aa5ef: Pull complete
+Digest: sha256:7f2749f3f1dc0df5caddfcbe35a23fc24509f971f5010a7133650bfd4e382da8
+Status: Downloaded newer image for kostyukov/my-php-app:latest
+Pulling mysqlserver (mysql:8.0.23)...
+8.0.23: Pulling from library/mysql
+f7ec5a41d630: Pull complete
+9444bb562699: Pull complete
+6a4207b96940: Pull complete
+181cefd361ce: Pull complete
+8a2090759d8a: Pull complete
+15f235e0d7ee: Pull complete
+d870539cd9db: Pull complete
+5726073179b6: Pull complete
+eadfac8b2520: Pull complete
+f5936a8c3f2b: Pull complete
+cca8ee89e625: Pull complete
+6c79df02586a: Pull complete
+Digest: sha256:6e0014cdd88092545557dee5e9eb7e1a3c84c9a14ad2418d5f2231e930967a38
+Status: Downloaded newer image for mysql:8.0.23
+Building petclinic
+Sending build context to Docker daemon  9.036MB
+Step 1/7 : FROM openjdk:16-alpine3.13
+ ---> 2aa8569968b8
+Step 2/7 : WORKDIR /app
+ ---> Using cache
+ ---> d374b128d4fc
+Step 3/7 : COPY .mvn/ .mvn
+ ---> Using cache
+ ---> ab4615dea163
+Step 4/7 : COPY mvnw pom.xml ./
+ ---> Using cache
+ ---> a35fd4195da6
+Step 5/7 : RUN ./mvnw dependency:go-offline
+ ---> Using cache
+ ---> cb25f2ee8b0c
+Step 6/7 : COPY src ./src
+ ---> Using cache
+ ---> 63bbcf6ef261
+Step 7/7 : CMD ["./mvnw", "spring-boot:run"]
+ ---> Using cache
+ ---> de620f2d47bb
+Successfully built de620f2d47bb
+Successfully tagged spring-petclinic_petclinic:latest
+WARNING: Image for service petclinic was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating spring-petclinic_worker_1      ... done
+Creating spring-petclinic_worker_2      ... done
+Creating spring-petclinic_worker_3      ... done
+Creating spring-petclinic_worker_4      ... done
+Creating spring-petclinic_worker_5      ... done
+Creating spring-petclinic_mysqlserver_1 ... done
+Creating spring-petclinic_petclinic_1   ... done
+ 
+docker ps
+CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS          PORTS                                                                                  NAMES
+703b31f98470   spring-petclinic_petclinic   "./mvnw spring-boot:…"   18 seconds ago   Up 12 seconds   0.0.0.0:8000->8000/tcp, :::8000->8000/tcp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   spring-petclinic_                           petclinic_1
+8929ed1820b1   kostyukov/my-php-app         "docker-php-entrypoi…"   22 seconds ago   Up 12 seconds   80/tcp                                                                                 spring-petclinic_                           worker_3
+299b97c89672   kostyukov/my-php-app         "docker-php-entrypoi…"   22 seconds ago   Up 13 seconds   80/tcp                                                                                 spring-petclinic_                           worker_1
+07f0bac51698   kostyukov/my-php-app         "docker-php-entrypoi…"   22 seconds ago   Up 12 seconds   80/tcp                                                                                 spring-petclinic_                           worker_4
+94cfa9db3131   kostyukov/my-php-app         "docker-php-entrypoi…"   22 seconds ago   Up 14 seconds   80/tcp                                                                                 spring-petclinic_                           worker_2
+2af86c9bbf2d   mysql:8.0.23                 "docker-entrypoint.s…"   22 seconds ago   Up 17 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                   spring-petclinic_                           mysqlserver_1
+9234af892df9   kostyukov/my-php-app         "docker-php-entrypoi…"   22 seconds ago   Up 12 seconds   80/tcp                                                                                 spring-petclinic_                           worker_5
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task3/img/spring.png)
 
