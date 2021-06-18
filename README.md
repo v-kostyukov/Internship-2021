@@ -78,3 +78,19 @@ DevOps Exadel Internship 2021
 ``` docker tag myimage:1.0 myrepo/myimage:2.0 ```
 ### Push an image to a registry 
 ``` docker push myrepo/myimage:2.0 ```
+
+### Task 4: Ansible
+### Installing Ansible with pip
+``` 
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py
+python3 -m pip install ansible
+```
+### Installing Ansible on Ubuntu
+``` 
+apt update
+apt install software-properties-common -y
+add-apt-repository --yes --update ppa:ansible/ansible
+apt install ansible -y
+ansible --version
+```
