@@ -72,9 +72,9 @@ ok: [ec2-52-59-192-201.eu-central-1.compute.amazonaws.com]
 ok: [ec2-3-65-27-106.eu-central-1.compute.amazonaws.com]
 
 TASK [docker : Add user to docker group] *********************************************************************************************************************************************************************
-changed: [ec2-3-65-27-106.eu-central-1.compute.amazonaws.com] => (item=ubuntu) => {"ansible_loop_var": "item", "append": true, "changed": true, "comment": "Ubuntu", "group": 1000, "groups": "docker", "home": "/home/ubuntu", "item": "ubuntu", "move_home": false, "name": "ubuntu", "shell": "/bin/bash", "state": "present", "uid": 1000}
+changed: [ec2-3-65-27-106.eu-central-1.compute.amazonaws.com] => (item=ubuntu)
 changed: [ec2-52-59-192-201.eu-central-1.compute.amazonaws.com] => (item=ubuntu)
-changed: [ec2-3-65-27-106.eu-central-1.compute.amazonaws.com] => (item=ansible) => {"ansible_loop_var": "item", "append": true, "changed": true, "comment": "", "group": 1001, "groups": "docker", "home": "/home/ansible", "item": "ansible", "move_home": false, "name": "ansible", "shell": "/bin/sh", "state": "present", "uid": 1001}
+changed: [ec2-3-65-27-106.eu-central-1.compute.amazonaws.com] => (item=ansible)
 changed: [ec2-52-59-192-201.eu-central-1.compute.amazonaws.com] => (item=ansible)
 ```
 ### Directory layout
