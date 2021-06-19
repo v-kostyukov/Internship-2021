@@ -1,0 +1,61 @@
+---
+- name: Update repositories cache and install docker dependencies
+  tags:
+    - docker_install
+    - docker_update_depend
+  apt: name= "{{ item }}" state=latest update_cache=yes upgrade=yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - curl
+    - gnupg
+    - lsb-release
+
+- name: Add docker repo apt key
+  tags:
+    - docker_install
+    - docker_add_repo_key
+  ansible.builtin.apt_key:
+    url: "{{ docker_apt_key_repo }}"
+    state: present
+
+- name: Add Docker Repository
+  tags:
+    - docker_install
+    - docker_add_repo
+  ansible.builtin.apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+
+- name: Update apt and install docker
+  tags:
+    - docker_install
+    - docker_ce_install
+  apt: name=docker-ce state=latest update_cache=yes
+#  with_items:
+#    - docker-ce
+#    - docker-ce-cli
+#    - containerd.io
+
+- name: Start and enable systemd service docker
+  tags:
+    - docker_install
+    - docker_start_service
+    - docker_enable_service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add user to docker group
+  tags:
+    - docker_install
+    - add_users_to_docker_group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  with_items:
+    - ubuntu
+    - ansible
