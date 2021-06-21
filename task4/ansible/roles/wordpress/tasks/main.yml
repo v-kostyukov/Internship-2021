@@ -1,0 +1,62 @@
+---
+- name: Create a directories
+  tags:
+    - wordpress_install
+    - wp_install
+    - wp_create_dir_proj
+  file:
+    path: "{{ PROJECT_DIR }}/{{ item }}"
+    state: directory
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+  - wordpress
+  - wp-db-data
+  - nginx
+
+- name: Create docker-compose.yml file 
+  tags:
+    - wordpress_install
+    - wp_install
+    - wp_create_docker_compose
+  file:
+    path: "{{ PROJECT_DIR }}/docker-compose.yml"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    state: touch 
+
+- name: Deploy Docker Compose 
+  tags:
+    - wordpress_install
+    - wp_install
+    - wp_deploy_docker_compose
+  template:
+    src: docker-compose.j2
+    dest: "{{ PROJECT_DIR }}/docker-compose.yml"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Deploy WP Nginx virtual host
+  tags:
+    - wordpress_install
+    - wp_install
+    - wp_deploy_nginx_conf
+  template:
+    src: wordpress-nginx.j2
+    dest: "{{ PROJECT_DIR }}/nginx/wordpress.conf"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Run docker-compose
+  tags:
+    - wordpress_install
+    - wp_install
+    - wp_run_docker_compose
+  command: docker-compose -f docker-compose.yml up -d
+  args:
+    chdir: "{{ PROJECT_DIR }}"
+
