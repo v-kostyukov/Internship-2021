@@ -1,5 +1,5 @@
 ---
-- name: Install docker
+- name: Install wordpress
   remote_user: ansible
   hosts: webservers
   become: yes
