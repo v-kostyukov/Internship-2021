@@ -168,3 +168,42 @@ c06e8d370077   mysql                  "docker-entrypoint.s…"   4 minutes ago  
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task4/img/ansible_wordpress.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task4/img/ansible_wordpress2.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task4/img/ansible_wordpress3.png)
+### Install python3, pip, boto3
+``` 
+sudo apt install -y python3
+sudo apt install python3-pip
+sudo pip3 install --user boto3
+Collecting boto3
+  Downloading boto3-1.17.97-py2.py3-none-any.whl (131 kB)
+     |████████████████████████████████| 131 kB 19.8 MB/s
+Collecting botocore<1.21.0,>=1.20.97
+  Downloading botocore-1.20.97-py2.py3-none-any.whl (7.6 MB)
+     |████████████████████████████████| 7.6 MB 26.3 MB/s
+Requirement already satisfied: jmespath<1.0.0,>=0.7.1 in /usr/lib/python3/dist-packages (from boto3) (0.9.4)
+Collecting s3transfer<0.5.0,>=0.4.0
+  Downloading s3transfer-0.4.2-py2.py3-none-any.whl (79 kB)
+     |████████████████████████████████| 79 kB 10.7 MB/s
+Collecting python-dateutil<3.0.0,>=2.1
+  Downloading python_dateutil-2.8.1-py2.py3-none-any.whl (227 kB)
+     |████████████████████████████████| 227 kB 36.3 MB/s
+Requirement already satisfied: urllib3<1.27,>=1.25.4 in /usr/lib/python3/dist-packages (from botocore<1.21.0,>=1.20.97->boto3) (1.25.8)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil<3.0.0,>=2.1->botocore<1.21.0,>=1.20.97->boto3) (1.14.0)
+Installing collected packages: python-dateutil, botocore, s3transfer, boto3
+Successfully installed boto3-1.17.97 botocore-1.20.97 python-dateutil-2.8.1 s3transfer-0.4.2
+```
+### Working With Dynamic Inventory
+``` 
+sudo ansible-inventory --graph -i inventory_aws_ec2.yml
+@all:
+  |--@_AnsibleControlNode:
+  |  |--ec2-3-68-95-60.eu-central-1.compute.amazonaws.com
+  |--@_AnsibleNode1:
+  |  |--ec2-52-59-192-201.eu-central-1.compute.amazonaws.com
+  |--@_AnsibleNode2:
+  |  |--ec2-3-65-27-106.eu-central-1.compute.amazonaws.com
+  |--@aws_ec2:
+  |  |--ec2-3-65-27-106.eu-central-1.compute.amazonaws.com
+  |  |--ec2-3-68-95-60.eu-central-1.compute.amazonaws.com
+  |  |--ec2-52-59-192-201.eu-central-1.compute.amazonaws.com
+  |--@ungrouped:
+```

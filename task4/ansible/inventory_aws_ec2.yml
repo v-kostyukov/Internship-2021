@@ -1,0 +1,11 @@
+---
+  plugin: aws_ec2
+  regions:
+    - eu-central-1
+  keyed_groups:
+    - key: tags.Name
+    - key: tags.task
+  filters:
+    instance-state-name : running
+  compose:
+    ansible_host: 3.68.95.60
