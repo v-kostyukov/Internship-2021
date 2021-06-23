@@ -95,3 +95,10 @@ apt install ansible -y
 ansible --version
 ```
 ### Task 5: Jenkins
+### Download and run Jenkins Docker image
+``` 
+docker run -d \
+-v jenkins_home:/var/jenkins_home \
+-p 8080:8080 -p 50000:50000 \
+jenkins/jenkins:lts-jdk11
+```
