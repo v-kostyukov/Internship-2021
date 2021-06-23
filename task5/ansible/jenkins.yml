@@ -1,0 +1,10 @@
+---
+- name: Install jenkins
+  remote_user: ansible
+  hosts: jenkins
+  become: yes
+  vars_files:
+    - ./inventory/production/group_vars/jenkins.yml
+  roles:
+    - docker
+    - jenkins

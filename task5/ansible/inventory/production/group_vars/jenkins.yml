@@ -1,0 +1,5 @@
+docker_apt_key_repo: https://download.docker.com/linux/ubuntu/gpg
+docker_apt_repository: deb https://download.docker.com/linux/ubuntu focal stable
+SERVER_IP: 192.168.0.155
+SYSTEM_USER: ubuntu
+PROJECT_DIR: /home/{{ SYSTEM_USER }}/jenkins

@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+        - 80:80
+    volumes:
+        - ./nginx:/etc/nginx/conf.d
+    networks:
+      - jenkinsnet
+    depends_on:
+      - jenkins
+
+  jenkins:
+    container_name: jenkins_server
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins:/var/jenkins_home
+      - /usr/local/bin/docker:/usr/local/bin/docker
+    networks:
+      - jenkinsnet
+
+networks:
+  jenkinsnet:
+
+volumes:
+  jenkins:
