@@ -66,3 +66,27 @@ PLAY RECAP *********************************************************************
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins2.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins3.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins4.png)
+### Information about jenkins server
+``` 
+jenkins_server/systemInfo
+
+http://192.168.0.155/systemInfo
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins5.png)
+### Creating and run Docker agent
+``` 
+docker run -d --rm --name=agent1 -p 22:22 \
+-e "JENKINS_AGENT_SSH_PUBKEY=[your-public-key]" \
+jenkins/ssh-agent:alpine
+
+VARS1="HOME=|USER=|MAIL=|LC_ALL=|LS_COLORS=|LANG="
+VARS2="HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_="
+VARS="${VARS1}|${VARS2}"
+docker exec agent1 sh -c "env | egrep -v '^(${VARS})' >> /etc/environment"
+
+docker ps
+CONTAINER ID   IMAGE                      COMMAND        CREATED          STATUS          PORTS                                     NAMES
+1233c743aff8   jenkins/ssh-agent:alpine   "setup-sshd"   4 minutes ago    Up 4 minutes    0.0.0.0:20022->22/tcp, :::20022->22/tcp   agent2
+9bbc32586389   jenkins/ssh-agent:alpine   "setup-sshd"   44 minutes ago   Up 44 minutes   0.0.0.0:22->22/tcp, :::22->22/tcp         agent1
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins6.png)
