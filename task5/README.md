@@ -90,3 +90,5 @@ CONTAINER ID   IMAGE                      COMMAND        CREATED          STATUS
 9bbc32586389   jenkins/ssh-agent:alpine   "setup-sshd"   44 minutes ago   Up 44 minutes   0.0.0.0:22->22/tcp, :::22->22/tcp         agent1
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins6.png)
+### Create a freestyle project. Which will display the current time as a result of execution.
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins7.png)
