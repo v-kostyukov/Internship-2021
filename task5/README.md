@@ -92,3 +92,15 @@ CONTAINER ID   IMAGE                      COMMAND        CREATED          STATUS
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins6.png)
 ### Create a freestyle project. Which will display the current time as a result of execution.
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins7.png)
+### Snippet Generator
+``` 
+${YOUR_JENKINS_URL}/pipeline-syntax
+```
+### Global Variable Reference
+``` 
+${YOUR_JENKINS_URL}/pipeline-syntax/globals#env
+```
+### Declarative Directive Generator
+``` 
+${YOUR_JENKINS_URL}/directive-generator
+```
