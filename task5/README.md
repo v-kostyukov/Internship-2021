@@ -104,3 +104,21 @@ ${YOUR_JENKINS_URL}/pipeline-syntax/globals#env
 ``` 
 ${YOUR_JENKINS_URL}/directive-generator
 ```
+### Create a Pipeline that will execute the command docker ps -a on the host
+```
+pipeline {
+    agent any
+
+    stages {
+        stage('stage1') {
+            agent {
+                label 'agent3'
+            }
+            steps {
+                sh("docker ps -a")
+            }
+        }
+    }
+}
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins8.png)
