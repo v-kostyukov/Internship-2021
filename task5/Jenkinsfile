@@ -5,14 +5,14 @@ pipeline {
         stage('1-Build') {
             steps {
                 echo "Start of Stage Build"
-                echo "Building......."
+                sh "ls -la"
                 echo "End of Stage Build"
             }
         }
         stage('2-Test') {
             steps {
                 echo "Start of Stage Test"
-                echo "Testing......."
+                echo "pwd"
                 echo "End of Stage Build"
             }
         }
