@@ -5,7 +5,7 @@ pipeline {
         stage('1-Build') {
             steps {
                 echo "Start of Stage Build"
-                sh "cd task3/3.2/"
+                sh 'cd task3/3.2/'
                 echo "End of Stage Build"
             }
         }
