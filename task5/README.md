@@ -122,3 +122,163 @@ pipeline {
 }
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins8.png)
+### Create a Pipeline that will pull code from repository and build a docker image from your Dockerfile
+``` 
+pipeline {
+    agent {
+            label 'agent3'
+          }
+    stages {
+        stage('1-Build') {
+            steps {
+                echo "Start of Stage Build"
+                sh "pwd"
+                dir('task3/3.2/') {
+                    sh """
+                        pwd
+                        ls -la
+                        docker build -t php-app .
+                    """
+                }
+                echo "End of Stage Build"
+            }
+        }
+        stage('2-Test') {
+            steps {
+                echo "Start of Stage Test"
+                sh """
+                    pwd
+                    docker image ls
+                """
+                echo "End of Stage Test"
+            }
+        }
+        stage('3-Deploy') {
+            steps {
+                echo "Start of Stage Deploy"
+                echo "Deploying......."
+                echo "End of Stage Deploy"
+            }
+        }
+    }
+}
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins9.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins10.png)
+### Console output
+``` 
+Started by user admin
+Obtained task5/Jenkinsfile from git git@github.com:v-kostyukov/Internship-2021.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on agent3 in /home/jenkins/workspace/Deploy-to-prod
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential github-ssh
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/jenkins/workspace/Deploy-to-prod/.git # timeout=10
+ > git config remote.origin.url git@github.com:v-kostyukov/Internship-2021.git # timeout=10
+Fetching upstream changes from git@github.com:v-kostyukov/Internship-2021.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+using GIT_SSH to set credentials githun-ssh
+ > git fetch --tags --force --progress -- git@github.com:v-kostyukov/Internship-2021.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 099278329b52d05e94021196abf461af4aec018e (refs/remotes/origin/master)
+Commit message: "change file task5/Jenkinsfile"
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 099278329b52d05e94021196abf461af4aec018e # timeout=10
+ > git rev-list --no-walk 0eb78351dec9f5919adcedf87de172bc46be024d # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (1-Build)
+[Pipeline] echo
+Start of Stage Build
+[Pipeline] sh
++ pwd
+/home/jenkins/workspace/Deploy-to-prod
+[Pipeline] dir
+Running in /home/jenkins/workspace/Deploy-to-prod/task3/3.2
+[Pipeline] {
+[Pipeline] sh
++ pwd
+/home/jenkins/workspace/Deploy-to-prod/task3/3.2
++ ls -la
+total 20
+drwxrwxr-x  2 jenkins jenkins 4096 Jun 27 10:39 .
+drwxrwxr-x 10 jenkins jenkins 4096 Jun 27 10:40 ..
+-rw-rw-r--  1 jenkins jenkins   96 Jun 27 10:39 Dockerfile
+-rw-rw-r--  1 jenkins jenkins  112 Jun 27 10:39 .dockerignore
+-rw-rw-r--  1 jenkins jenkins  192 Jun 27 10:39 index.html
++ docker build -t php-app .
+Sending build context to Docker daemon  4.096kB
+
+Step 1/3 : FROM nginx:latest
+ ---> d1a364dc548d
+Step 2/3 : COPY ./index.html /usr/share/nginx/html/index.html
+ ---> ced017050a3f
+Step 3/3 : ENV DEVOPS="v-kostyukov"
+ ---> Running in 4f4a0e2c0e8e
+Removing intermediate container 4f4a0e2c0e8e
+ ---> 411a3dfd5932
+Successfully built 411a3dfd5932
+Successfully tagged php-app:latest
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] echo
+End of Stage Build
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (2-Test)
+[Pipeline] echo
+Start of Stage Test
+[Pipeline] sh
++ pwd
+/home/jenkins/workspace/Deploy-to-prod
++ docker image ls
+REPOSITORY                   TAG             IMAGE ID       CREATED        SIZE
+php-app                      latest          411a3dfd5932   1 second ago   133MB
+java-docker                  latest          de620f2d47bb   10 days ago    574MB
+spring-petclinic_petclinic   latest          de620f2d47bb   10 days ago    574MB
+kostyukov/my-php-app         latest          d3f9c54c5648   10 days ago    410MB
+wordpress                    php7.4-fpm      b0d791fbc5fa   3 weeks ago    542MB
+jenkins/jenkins              lts-jdk11       416c6656c1cd   3 weeks ago    684MB
+jenkins/jenkins              lts             0af90866343f   3 weeks ago    573MB
+nginx                        latest          d1a364dc548d   4 weeks ago    133MB
+mysql                        5.7             2c9028880e58   6 weeks ago    447MB
+mysql                        latest          c0cdc95609f1   6 weeks ago    556MB
+mysql                        8.0.23          cbe8815cbea8   2 months ago   546MB
+jenkins/ssh-agent            alpine          f922a66329e7   3 months ago   231MB
+openjdk                      16-alpine3.13   2aa8569968b8   4 months ago   324MB
+[Pipeline] echo
+End of Stage Test
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (3-Deploy)
+[Pipeline] echo
+Start of Stage Deploy
+[Pipeline] echo
+Deploying.......
+[Pipeline] echo
+End of Stage Deploy
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins11.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins12.png)
