@@ -33,7 +33,6 @@ pipeline {
         stage('3-Deploy') {
             steps {
                 echo "Start of Stage Deploy"
-                echo $PASSWORD
                 echo '$PASSWORD'
                 echo "$PASSWORD"
                 echo "End of Stage Deploy"
