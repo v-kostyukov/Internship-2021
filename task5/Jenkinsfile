@@ -5,8 +5,13 @@ pipeline {
         stage('1-Build') {
             steps {
                 echo "Start of Stage Build"
-                sh 'cd /var/jenkins_home/workspace/Deploy-to-prod/task3/3.2/'
-                sh 'ls -la'
+                sh "pwd"
+                dir('task3/3.2/') {
+                    sh "pwd"
+                    sh 'ls -la'
+                }
+                //sh 'cd /var/jenkins_home/workspace/Deploy-to-prod/task3/3.2/'
+                //sh 'ls -la'
                 sh 'pwd'
                 echo "End of Stage Build"
             }
