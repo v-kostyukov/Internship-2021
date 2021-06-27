@@ -33,7 +33,7 @@ pipeline {
         stage('3-Deploy') {
             steps {
                 echo "Start of Stage Deploy"
-                docker run -it -d -p 80:80 -e "PASSWORD=$PASSWORD" php-app
+                docker run -it -d -e "PASSWORD=$PASSWORD" php-app
                 echo "End of Stage Deploy"
             }
         }
