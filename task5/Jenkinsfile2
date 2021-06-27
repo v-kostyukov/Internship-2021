@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+            label 'agent3'
+          }
+     environment {
+        PASSWORD = credentials('docker-secret')
+    }
+    stages {
+        stage('1-Build') {
+            steps {
+                echo "Start of Stage Build"
+                sh "pwd"
+                dir('task3/3.2/') {
+                    sh """
+                        pwd
+                        ls -la
+                        docker build -t php-app .
+                    """
+                }
+                echo "End of Stage Build"
+            }
+        }
+        stage('2-Test') {
+            steps {
+                echo "Start of Stage Test"
+                sh """
+                    pwd
+                    docker image ls
+                """
+                echo "End of Stage Test"
+            }
+        }
+        stage('3-Deploy') {
+            steps {
+                echo "Start of Stage Deploy"
+                echo $PASSWORD
+                echo '$PASSWORD'
+                echo "$PASSWORD"
+                echo "End of Stage Deploy"
+            }
+        }
+    }
+}
