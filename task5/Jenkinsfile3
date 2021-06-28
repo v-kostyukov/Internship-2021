@@ -10,9 +10,9 @@ pipeline {
                         docker run -d -p 5000:5000 --restart=always --name registry -v /dockerrepo:/var/lib/registry registry:2
                         docker ps
                     """
-                }
                 echo "End of Stage Deploy the local docker registry"
             }
+        }
         stage('2-Load the docker image into a local docker registry') {
             steps {
                 echo "Start of Stage Load the docker image into a local docker registry"
