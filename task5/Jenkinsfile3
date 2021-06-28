@@ -2,9 +2,6 @@ pipeline {
     agent {
             label 'agent3'
           }
-     environment {
-
-    }
     stages {
         stage('1-Deploy the local docker registry') {
             steps {
@@ -16,7 +13,6 @@ pipeline {
                 }
                 echo "End of Stage Deploy the local docker registry"
             }
-        }
         stage('2-Load the docker image into a local docker registry') {
             steps {
                 echo "Start of Stage Load the docker image into a local docker registry"
@@ -39,4 +35,5 @@ pipeline {
                 echo "End of Stage Launch the container on the environment from the local docker registry"
             }
         }
+    }
 }
