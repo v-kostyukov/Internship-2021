@@ -39,5 +39,4 @@ pipeline {
                 echo "End of Stage Launch the container on the environment from the local docker registry"
             }
         }
-    }
 }
