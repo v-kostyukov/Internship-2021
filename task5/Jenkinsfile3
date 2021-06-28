@@ -17,7 +17,7 @@ pipeline {
             steps {
                 echo "Start of Stage Load the docker image into a local docker registry"
                 sh """
-                    docker pull docker push kostyukov/my-php-app:latest
+                    docker pull kostyukov/my-php-app:latest
                     docker tag kostyukov/my-php-app:latest localhost:5000/my-php-app
                     docker push localhost:5000/my-php-app
                     docker image ls
