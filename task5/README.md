@@ -471,3 +471,190 @@ DEVOPS=v-kostyukov
 HOME=/root
 ```
 ### Deploy the local docker registry, load the docker image into it, unload the docker image from the docker registry and launch the container on the environment (using Jenkinsfile)
+``` 
+pipeline {
+    agent {
+            label 'agent3'
+          }
+    stages {
+        stage('1-Deploy the local docker registry') {
+            steps {
+                echo "Start of Stage Deploy the local docker registry"
+                    sh """
+                        docker run -d -p 5000:5000 --restart=always --name registry -v /dockerrepo:/var/lib/registry registry:2
+                        docker ps
+                    """
+                echo "End of Stage Deploy the local docker registry"
+            }
+        }
+        stage('2-Load the docker image into a local docker registry') {
+            steps {
+                echo "Start of Stage Load the docker image into a local docker registry"
+                sh """
+                    docker pull kostyukov/my-php-app:latest
+                    docker tag kostyukov/my-php-app:latest localhost:5000/my-php-app
+                    docker push localhost:5000/my-php-app
+                    docker image ls
+                """
+                echo "End of Stage Load the docker image into a local docker registry"
+            }
+        }
+        stage('3-Launch the container on the environment from the local docker registry') {
+            steps {
+                echo "Start of Stage Launch the container on the environment from the local docker registry"
+                sh """
+                    docker run -it -d -p 80:80 localhost:5000/my-php-app
+                    docker ps
+                """
+                echo "End of Stage Launch the container on the environment from the local docker registry"
+            }
+        }
+    }
+}
+```
+### Console output
+``` 
+Started by user admin
+Obtained task5/Jenkinsfile3 from git git@github.com:v-kostyukov/Internship-2021.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on agent3 in /home/jenkins/workspace/Deploy-to-prod-repo
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential github-ssh
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /home/jenkins/workspace/Deploy-to-prod-repo/.git # timeout=10
+ > git config remote.origin.url git@github.com:v-kostyukov/Internship-2021.git # timeout=10
+Fetching upstream changes from git@github.com:v-kostyukov/Internship-2021.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+using GIT_SSH to set credentials githun-ssh
+ > git fetch --tags --force --progress -- git@github.com:v-kostyukov/Internship-2021.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision f0efa3609bbdd65fceb314848f9d40791f61d1f4 (refs/remotes/origin/master)
+Commit message: "change file task5/Jenkinsfile3"
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f f0efa3609bbdd65fceb314848f9d40791f61d1f4 # timeout=10
+ > git rev-list --no-walk f0efa3609bbdd65fceb314848f9d40791f61d1f4 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (1-Deploy the local docker registry)
+[Pipeline] echo
+Start of Stage Deploy the local docker registry
+[Pipeline] sh
++ docker run -d -p 5000:5000 --restart=always --name registry -v /dockerrepo:/var/lib/registry registry:2
+31ea21204ea16adf47c8460c7d4430cffde3ad91575568f66d140e0f6433fb02
++ docker ps
+CONTAINER ID   IMAGE        COMMAND                  CREATED        STATUS                  PORTS                                       NAMES
+31ea21204ea1   registry:2   "/entrypoint.sh /etc…"   1 second ago   Up Less than a second   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry
+[Pipeline] echo
+End of Stage Deploy the local docker registry
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (2-Load the docker image into a local docker registry)
+[Pipeline] echo
+Start of Stage Load the docker image into a local docker registry
+[Pipeline] sh
++ docker pull kostyukov/my-php-app:latest
+latest: Pulling from kostyukov/my-php-app
+Digest: sha256:7f2749f3f1dc0df5caddfcbe35a23fc24509f971f5010a7133650bfd4e382da8
+Status: Image is up to date for kostyukov/my-php-app:latest
+docker.io/kostyukov/my-php-app:latest
++ docker tag kostyukov/my-php-app:latest localhost:5000/my-php-app
++ docker push localhost:5000/my-php-app
+Using default tag: latest
+The push refers to repository [localhost:5000/my-php-app]
+c498ce6a5fa3: Preparing
+5dc980197467: Preparing
+cc45506c4447: Preparing
+6ec4d4ce53cc: Preparing
+9a60d912a14f: Preparing
+ce60a0c97d4a: Preparing
+e1cd0107ea85: Preparing
+914a1eddd57a: Preparing
+0ff9183bd099: Preparing
+d666585087a1: Preparing
+bc0429138e0d: Preparing
+02eef72b445f: Preparing
+e45a78df7536: Preparing
+ddcd8d2fcf7e: Preparing
+87c8a1d8f54f: Preparing
+ce60a0c97d4a: Waiting
+e1cd0107ea85: Waiting
+914a1eddd57a: Waiting
+0ff9183bd099: Waiting
+d666585087a1: Waiting
+bc0429138e0d: Waiting
+02eef72b445f: Waiting
+e45a78df7536: Waiting
+ddcd8d2fcf7e: Waiting
+87c8a1d8f54f: Waiting
+5dc980197467: Pushed
+cc45506c4447: Pushed
+c498ce6a5fa3: Pushed
+9a60d912a14f: Pushed
+6ec4d4ce53cc: Pushed
+d666585087a1: Pushed
+e1cd0107ea85: Pushed
+0ff9183bd099: Pushed
+02eef72b445f: Pushed
+ddcd8d2fcf7e: Pushed
+914a1eddd57a: Pushed
+ce60a0c97d4a: Pushed
+bc0429138e0d: Pushed
+87c8a1d8f54f: Pushed
+e45a78df7536: Pushed
+latest: digest: sha256:7f2749f3f1dc0df5caddfcbe35a23fc24509f971f5010a7133650bfd4e382da8 size: 3449
++ docker image ls
+REPOSITORY                   TAG             IMAGE ID       CREATED        SIZE
+php-app                      latest          411a3dfd5932   33 hours ago   133MB
+java-docker                  latest          de620f2d47bb   11 days ago    574MB
+spring-petclinic_petclinic   latest          de620f2d47bb   11 days ago    574MB
+kostyukov/my-php-app         latest          d3f9c54c5648   12 days ago    410MB
+localhost:5000/my-php-app    latest          d3f9c54c5648   12 days ago    410MB
+wordpress                    php7.4-fpm      b0d791fbc5fa   3 weeks ago    542MB
+jenkins/jenkins              lts-jdk11       416c6656c1cd   3 weeks ago    684MB
+jenkins/jenkins              lts             0af90866343f   3 weeks ago    573MB
+nginx                        latest          d1a364dc548d   4 weeks ago    133MB
+mysql                        5.7             2c9028880e58   6 weeks ago    447MB
+mysql                        latest          c0cdc95609f1   6 weeks ago    556MB
+registry                     2               1fd8e1b0bb7e   2 months ago   26.2MB
+mysql                        8.0.23          cbe8815cbea8   2 months ago   546MB
+jenkins/ssh-agent            alpine          f922a66329e7   3 months ago   231MB
+openjdk                      16-alpine3.13   2aa8569968b8   4 months ago   324MB
+[Pipeline] echo
+End of Stage Load the docker image into a local docker registry
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (3-Launch the container on the environment from the local docker registry)
+[Pipeline] echo
+Start of Stage Launch the container on the environment from the local docker registry
+[Pipeline] sh
++ docker run -it -d -p 80:80 localhost:5000/my-php-app
+2a2ffb5f11de8ba02b8f306567c68e80bfc573ff1aab7b13782b2f3c0bfb4907
++ docker ps
+CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS                  PORTS                                       NAMES
+2a2ffb5f11de   localhost:5000/my-php-app   "docker-php-entrypoi…"   1 second ago     Up Less than a second   0.0.0.0:80->80/tcp, :::80->80/tcp           festive_borg
+31ea21204ea1   registry:2                  "/entrypoint.sh /etc…"   51 seconds ago   Up 49 seconds           0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry
+[Pipeline] echo
+End of Stage Launch the container on the environment from the local docker registry
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins14.png)
