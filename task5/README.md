@@ -470,3 +470,4 @@ PKG_RELEASE=1~buster
 DEVOPS=v-kostyukov
 HOME=/root
 ```
+### Deploy the local docker registry, load the docker image into it, unload the docker image from the docker registry and launch the container on the environment (using Jenkinsfile)
