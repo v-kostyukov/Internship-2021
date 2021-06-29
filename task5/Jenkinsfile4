@@ -27,7 +27,10 @@ pipeline {
         stage('3-Deploy') {
             steps {
                 echo "Start of Stage Deploy"
-                sh "ls -la"
+                sh """
+                    ls -la
+                    git log
+                """
                 echo "End of Stage Deploy"
             }
         }
