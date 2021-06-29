@@ -658,3 +658,8 @@ End of Stage Launch the container on the environment from the local docker regis
 Finished: SUCCESS
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins14.png)
+### Set up two-way integration between Jenkins and your Git repository
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins15.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins16.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/jenkins_github_webhook.png)
+

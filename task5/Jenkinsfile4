@@ -30,7 +30,6 @@ pipeline {
                 sh """
                     ls -la
                     git status
-                    git log
                 """
                 echo "End of Stage Deploy"
             }
