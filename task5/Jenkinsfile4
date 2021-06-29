@@ -1,13 +1,16 @@
 pipeline {
     agent any
+    environment {
+      PROJECT_NAME = "Deploy-to-prod-auto"
+      OWNER_NAME   = "Vitaliy Kostyukov"
+    }
     stages {
         stage('1-Build') {
             steps {
                 echo "Start of Stage Build"
-                    sh """
-                        pwd
-                        ls -la
-                    """
+                echo "The current build ID: {$BUILD_ID}
+                echo "Name project: {$PROJECT_NAME}
+                echo "Name DevOps: {$OWNER_NAME}
                 echo "End of Stage Build"
             }
         }
@@ -15,7 +18,8 @@ pipeline {
             steps {
                 echo "Start of Stage Test"
                 sh """
-                    docker ps
+                    pwd
+                    ls -la
                 """
                 echo "End of Stage Test"
             }
@@ -23,7 +27,7 @@ pipeline {
         stage('3-Deploy') {
             steps {
                 echo "Start of Stage Deploy"
-                echo "Deploying......."
+                sh "ls -la"
                 echo "End of Stage Deploy"
             }
         }
