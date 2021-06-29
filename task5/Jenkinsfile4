@@ -8,8 +8,9 @@ pipeline {
         stage('1-Build') {
             steps {
                 echo "Start of Stage Build"
-                echo "Name project: {$PROJECT_NAME}
-                echo "Name DevOps: {$OWNER_NAME}
+                echo "The current build ID: ${BUILD_ID}"
+                echo "Name project: ${PROJECT_NAME}"
+                echo "Name DevOps: ${OWNER_NAME}"
                 echo "End of Stage Build"
             }
         }
