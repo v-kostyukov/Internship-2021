@@ -28,6 +28,7 @@ pipeline {
                 echo "Start of Stage Deploy"
                 sh """
                     ls -la
+                    git status
                     git log
                 """
                 echo "End of Stage Deploy"
