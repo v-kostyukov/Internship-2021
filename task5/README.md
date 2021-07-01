@@ -662,4 +662,234 @@ Finished: SUCCESS
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins15.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins16.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/jenkins_github_webhook.png)
+### Console output 
+``` 
+Started by GitHub push by v-kostyukov
+Obtained task5/Jenkinsfile4 from git git@github.com:v-kostyukov/Internship-2021.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/Deploy-to-prod-auto
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential github-ssh-key
+ > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/Deploy-to-prod-auto/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git@github.com:v-kostyukov/Internship-2021.git # timeout=10
+Fetching upstream changes from git@github.com:v-kostyukov/Internship-2021.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+using GIT_SSH to set credentials github-ssh-key
+ > git fetch --tags --force --progress -- git@github.com:v-kostyukov/Internship-2021.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision a182b0a71c28d313210f181491391d8af9724f19 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f a182b0a71c28d313210f181491391d8af9724f19 # timeout=10
+Commit message: "add files task5"
+ > git rev-list --no-walk 1a5e4612e93f7335fa9cbff383a12fa90e06d592 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (1-Build)
+[Pipeline] echo
+Start of Stage Build
+[Pipeline] echo
+The current build ID: 6
+[Pipeline] echo
+Name project: Deploy-to-prod-auto
+[Pipeline] echo
+Name DevOps: Vitaliy Kostyukov
+[Pipeline] echo
+End of Stage Build
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (2-Test)
+[Pipeline] echo
+Start of Stage Test
+[Pipeline] sh
++ pwd
+/var/jenkins_home/workspace/Deploy-to-prod-auto
++ ls -la
+total 44
+drwxr-xr-x 8 root root 4096 Jun 29 11:48 .
+drwxr-xr-x 4 root root 4096 Jun 29 11:48 ..
+drwxr-xr-x 8 root root 4096 Jun 29 12:33 .git
+-rw-r--r-- 1 root root   28 Jun 29 11:48 .gitignore
+-rw-r--r-- 1 root root 4100 Jun 29 11:48 README.md
+drwxr-xr-x 2 root root 4096 Jun 29 11:48 task1
+drwxr-xr-x 3 root root 4096 Jun 29 11:48 task2
+drwxr-xr-x 9 root root 4096 Jun 29 11:48 task3
+drwxr-xr-x 4 root root 4096 Jun 29 11:48 task4
+drwxr-xr-x 4 root root 4096 Jun 29 12:33 task5
+[Pipeline] echo
+End of Stage Test
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (3-Deploy)
+[Pipeline] echo
+Start of Stage Deploy
+[Pipeline] sh
++ ls -la
+total 44
+drwxr-xr-x 8 root root 4096 Jun 29 11:48 .
+drwxr-xr-x 4 root root 4096 Jun 29 11:48 ..
+drwxr-xr-x 8 root root 4096 Jun 29 12:33 .git
+-rw-r--r-- 1 root root   28 Jun 29 11:48 .gitignore
+-rw-r--r-- 1 root root 4100 Jun 29 11:48 README.md
+drwxr-xr-x 2 root root 4096 Jun 29 11:48 task1
+drwxr-xr-x 3 root root 4096 Jun 29 11:48 task2
+drwxr-xr-x 9 root root 4096 Jun 29 11:48 task3
+drwxr-xr-x 4 root root 4096 Jun 29 11:48 task4
+drwxr-xr-x 4 root root 4096 Jun 29 12:33 task5
++ git status
+HEAD detached at a182b0a
+nothing to commit, working tree clean
+[Pipeline] echo
+End of Stage Deploy
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins17.png)
+### Configure several build agents. Agents must be running in docker.
+``` 
+In the docker service file /lib/systemd/system/docker.service 
+Search for ExecStart and replace that line with the following
 
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock
+
+sudo systemctl daemon-reload
+sudo service docker restart
+
+curl http://192.168.0.155:4243/version
+{"Platform":{"Name":"Docker Engine - Community"},"Components":[{"Name":"Engine","Version":"20.10.7","Details":{"ApiVersion":"1.41","Arch":"amd64","BuildTime":"2021-06-02T11:54:50.000000000+00:00","Experimental":"false","GitCommit":"b0f5bc3","GoVersion":"go1.13.15","KernelVersion":"5.4.0-77-generic","MinAPIVersion":"1.12","Os":"linux"}},{"Name":"containerd","Version":"1.4.6","Details":{"GitCommit":"d71fcd7d8303cbf684402823e425e9dd2e99285d"}},{"Name":"runc","Version":"1.0.0-rc95","Details":{"GitCommit":"b9ee9c6314599f1b4a7f497e1f1f856fe433d3b7"}},{"Name":"docker-init","Version":"0.19.0","Details":{"GitCommit":"de40ad0"}}],"Version":"20.10.7","ApiVersion":"1.41","MinAPIVersion":"1.12","GitCommit":"b0f5bc3","GoVersion":"go1.13.15","Os":"linux","Arch":"amd64","KernelVersion":"5.4.0-77-generic","BuildTime":"2021-06-02T11:54:50.000000000+00:00"}
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/config_docker.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/config_docker2.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/config_docker3.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/config_docker4.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/config_docker5.png)
+### Create docker image jenkins-slave-alpine
+``` 
+docker build -t jenkins-slave-alpine .
+Sending build context to Docker daemon  374.7MB
+Step 1/11 : ARG version=latest-alpine-jdk11
+Step 2/11 : FROM jenkins/agent:$version
+ ---> 135ad8fd1889
+Step 3/11 : ARG version
+ ---> Using cache
+ ---> 876335152fd4
+Step 4/11 : LABEL Description="This is a base image, which allows connecting Jenkins agents via JNLP protocols" Vendor="Jenkins project" Version="$version"
+ ---> Using cache
+ ---> 25751eb67264
+Step 5/11 : ARG user=jenkins
+ ---> Using cache
+ ---> 46233cc0ebcf
+Step 6/11 : USER root
+ ---> Using cache
+ ---> caef3f550920
+Step 7/11 : COPY jenkins-agent /usr/local/bin/jenkins-agent
+ ---> e439e9dfa862
+Step 8/11 : RUN chmod +x /usr/local/bin/jenkins-agent &&    ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave
+ ---> Running in 7af746bd5abd
+Removing intermediate container 7af746bd5abd
+ ---> e05a95f548b5
+Step 9/11 : RUN apk update && apk add --no-cache docker-cli
+ ---> Running in e3941e8d1a80
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/APKINDEX.tar.gz
+v3.13.5-224-g4b1b4dc794 [https://dl-cdn.alpinelinux.org/alpine/v3.13/main]
+v3.13.5-216-gca846067ce [https://dl-cdn.alpinelinux.org/alpine/v3.13/community]
+OK: 13892 distinct packages available
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/APKINDEX.tar.gz
+(1/1) Installing docker-cli (20.10.3-r1)
+Executing busybox-1.32.1-r6.trigger
+OK: 102 MiB in 37 packages
+Removing intermediate container e3941e8d1a80
+ ---> 9fbc3f7b189a
+Step 10/11 : USER ${user}
+ ---> Running in 64623f0a8eed
+Removing intermediate container 64623f0a8eed
+ ---> 98a5b88406f0
+Step 11/11 : ENTRYPOINT ["/usr/local/bin/jenkins-agent"]
+ ---> Running in 568fae514d7f
+Removing intermediate container 568fae514d7f
+ ---> 078e1c37ea8c
+Successfully built 078e1c37ea8c
+Successfully tagged jenkins-slave-alpine:latest
+
+docker tag jenkins-slave-alpine kostyukov/jenkins-slave-alpine
+docker push kostyukov/jenkins-slave-alpine
+Using default tag: latest
+The push refers to repository [docker.io/kostyukov/jenkins-slave-alpine]
+a249f13bf973: Pushed
+da9804b59907: Pushed
+8aa6b9729fa7: Pushed
+35fde915c383: Mounted from jenkins/agent
+c0073221a63c: Mounted from jenkins/agent
+46bdca078720: Mounted from jenkins/agent
+e384a2d73066: Mounted from jenkins/agent
+ce7e5c5cc356: Mounted from jenkins/agent
+e330fc6a21cc: Mounted from jenkins/agent
+b2d5eeeaba3a: Mounted from jenkins/agent
+latest: digest: sha256:f8d128a94fe17139a6ca03559b58be20251e4194da5ea859ad1b161997432804 size: 2415
+```
+### Create pipeline
+``` 
+pipeline {
+    //agent any
+    agent {
+                label 'jenkins-slave-alpine'
+            }
+    stages {
+        stage('stage1') {
+            steps {
+                sh("docker ps -a")
+            }
+        }
+    }
+}
+```
+### Console output
+``` 
+Started by user admin
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on jenkins-slave-alpine-00002q21ymqeg on docker in /home/jenkins/workspace/pipeline-docker-slave
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (stage1)
+[Pipeline] sh
++ docker ps -a
+CONTAINER ID   IMAGE                                   COMMAND                  CREATED          STATUS                  PORTS                                                                                      NAMES
+6b785e8f041b   kostyukov/jenkins-slave-alpine:latest   "/usr/local/bin/jenk…"   2 seconds ago    Up Less than a second                                                                                              interesting_ride
+45e6b2d72522   kostyukov/jenkins-slave-alpine:latest   "/usr/local/bin/jenk…"   7 minutes ago    Up 7 minutes                                                                                                       priceless_villani
+6f34116d7e5c   nginx:latest                            "/docker-entrypoint.…"   34 minutes ago   Up 34 minutes           0.0.0.0:80->80/tcp, :::80->80/tcp                                                          jenkins_nginx_1
+1a31d898e6f3   jenkins/jenkins:lts                     "/sbin/tini -- /usr/…"   34 minutes ago   Up 34 minutes           0.0.0.0:8080->8080/tcp, :::8080->8080/tcp, 0.0.0.0:50000->50000/tcp, :::50000->50000/tcp   jenkins_server
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task5/img/ansible_jenkins18.png)
