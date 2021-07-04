@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: {{ WP_DB_NAME }}
+      MYSQL_USER: {{ WP_DB_USER }}
+      MYSQL_PASSWORD: {{ WP_DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: {{ MYSQL_ROOT_PASSWD }}
+    volumes:
+      - ./db-data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+  db:
