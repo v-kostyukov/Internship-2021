@@ -64,5 +64,89 @@ changed: [ec2-18-193-112-15.eu-central-1.compute.amazonaws.com]
 
 PLAY RECAP ***************************************************************************************************************************************************************************************************
 ec2-18-193-112-15.eu-central-1.compute.amazonaws.com : ok=10   changed=12    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+### Write SQL scripts that will populate the database and check for existing tables / records.
+``` 
+mysql -u root -p internship_db < create_tables.sql
+mysql> use internship_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
 
+Database changed
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_internship_db |
++-------------------------+
+| Result                  |
+| Students                |
++-------------------------+
+2 rows in set (0.00 sec)
+
+mysql -u root -p internship_db < insert_students.sql
+mysql> use internship_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT * FROM Students;
++----+---------------------------------------+-----------+
+| ID | Student                               | StudentId |
++----+---------------------------------------+-----------+
+|  1 | Назар Винник               |         1 |
+|  2 | Александр Рекун         |         2 |
+|  3 | Олег Бандрівський     |         3 |
+|  4 | Владимир Бурдыко       |         4 |
+|  5 | Вадим Марков               |         5 |
+|  6 | Игорь Войтух               |         7 |
+|  7 | Дмитрий Мошна             |         8 |
+|  8 | Евгений Козловский   |         9 |
+|  9 | Эд Еленский                 |        10 |
+| 10 | Игорь Зинченко           |        11 |
+| 11 | Виталий Костюков       |        14 |
+| 12 | Евгений Лактюшин       |        16 |
+| 13 | Михаил Лопаев             |        18 |
+| 14 | Михаил Мостыка           |        19 |
+| 15 | Андрей Новогродский |        20 |
+| 16 | Сазонова Анна             |        21 |
+| 17 | Дмитрий Соловей         |        22 |
+| 18 | Артём Фортунатов       |        23 |
+| 19 | Хоменко Іван               |        24 |
+| 20 | Алексей Шутов             |        26 |
+| 21 | Юрий Щербина               |        27 |
++----+---------------------------------------+-----------+
+21 rows in set (0.00 sec)
+
+mysql -u root -p internship_db < insert_result.sql
+mysql> use internship_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT * FROM Result;
++----+-----------+------------------+------------------+------------------+------------------+------------------+
+| ID | StudentId | Task1            | Task2            | Task3            | Task4            | Task5            |
++----+-----------+------------------+------------------+------------------+------------------+------------------+
+|  1 |         1 | Done             | Done with honors | Done with honors | Done with honors | Done             |
+|  2 |         2 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
+|  3 |         3 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+|  4 |         4 | Done with honors | Done with honors | Done             | Done             | Done             |
+|  5 |         5 | Done             | Done             | Done             | Done             | Not competed     |
+|  6 |         7 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
+|  7 |         8 | Done             | Not competed     | Done             | Done             | Not competed     |
+|  8 |         9 | Done             | Done with honors | Done             | Done             | Done             |
+|  9 |        10 | Done with honors | Done with honors | Done with honors | Done             | Done             |
+| 10 |        11 | Done             | Done             | Done             | Done             | Done             |
+| 11 |        14 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 12 |        16 | Done             | Done with honors | Done             | Done             | Done with honors |
+| 13 |        18 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 14 |        19 | Done             | Done with honors | Done with honors | Done with honors | Done             |
+| 15 |        20 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 16 |        21 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
+| 17 |        22 | Done with honors | Done with honors | Done with honors | Done with honors | Done             |
+| 18 |        23 | Done             | Done             | Done with honors | Done with honors | Done             |
+| 19 |        24 | Done             | Done             | Done             | Done             | Not competed     |
+| 20 |        26 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 21 |        27 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
++----+-----------+------------------+------------------+------------------+------------------+------------------+
+21 rows in set (0.00 sec)
 ```
