@@ -157,3 +157,91 @@ Enter password:
 Student Task1   Task2   Task3   Task4   Task5
 Виталий Костюков        Done    Done with honors        Done with honors        Done with honors        Done with honors
 ```
+### Dump the database, delete the existing one and restore from the dump.
+``` 
+mysqldump -u root -p internship_db > /root/internship_db.sql
+ls -la /root/
+total 36
+drwx------ 1 root root 4096 Jul  4 18:58 .
+drwxr-xr-x 1 root root 4096 Jul  4 18:31 ..
+-rw------- 1 root root   51 Jul  4 15:47 .bash_history
+-rw-r--r-- 1 root root  570 Jan 31  2010 .bashrc
+-rw------- 1 root root 2071 Jul  4 18:57 .mysql_history
+-rw-r--r-- 1 root root  148 Aug 17  2015 .profile
+-rw-r--r-- 1 root root  227 Jun 23 07:11 .wget-hsts
+-rw-r--r-- 1 root root 5985 Jul  4 18:58 internship_db.sql
+
+mysql> DROP DATABASE internship_db;
+Query OK, 2 rows affected (0.06 sec)
+
+mysql> CREATE DATABASE internship_db;
+Query OK, 1 row affected (0.01 sec)
+
+root@1d22a81284f1:/# mysql -u root -p internship_db < /root/internship_db.sql
+Enter password:
+
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_internship_db |
++-------------------------+
+| Result                  |
+| Students                |
++-------------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Students;
++----+---------------------------------------+-----------+
+| ID | Student                               | StudentId |
++----+---------------------------------------+-----------+
+|  1 | Назар Винник               |         1 |
+|  2 | Александр Рекун         |         2 |
+|  3 | Олег Бандрівський     |         3 |
+|  4 | Владимир Бурдыко       |         4 |
+|  5 | Вадим Марков               |         5 |
+|  6 | Игорь Войтух               |         7 |
+|  7 | Дмитрий Мошна             |         8 |
+|  8 | Евгений Козловский   |         9 |
+|  9 | Эд Еленский                 |        10 |
+| 10 | Игорь Зинченко           |        11 |
+| 11 | Виталий Костюков       |        14 |
+| 12 | Евгений Лактюшин       |        16 |
+| 13 | Михаил Лопаев             |        18 |
+| 14 | Михаил Мостыка           |        19 |
+| 15 | Андрей Новогродский |        20 |
+| 16 | Сазонова Анна             |        21 |
+| 17 | Дмитрий Соловей         |        22 |
+| 18 | Артём Фортунатов       |        23 |
+| 19 | Хоменко Іван               |        24 |
+| 20 | Алексей Шутов             |        26 |
+| 21 | Юрий Щербина               |        27 |
++----+---------------------------------------+-----------+
+21 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Result;
++----+-----------+------------------+------------------+------------------+------------------+------------------+
+| ID | StudentId | Task1            | Task2            | Task3            | Task4            | Task5            |
++----+-----------+------------------+------------------+------------------+------------------+------------------+
+|  1 |         1 | Done             | Done with honors | Done with honors | Done with honors | Done             |
+|  2 |         2 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
+|  3 |         3 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+|  4 |         4 | Done with honors | Done with honors | Done             | Done             | Done             |
+|  5 |         5 | Done             | Done             | Done             | Done             | Not competed     |
+|  6 |         7 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
+|  7 |         8 | Done             | Not competed     | Done             | Done             | Not competed     |
+|  8 |         9 | Done             | Done with honors | Done             | Done             | Done             |
+|  9 |        10 | Done with honors | Done with honors | Done with honors | Done             | Done             |
+| 10 |        11 | Done             | Done             | Done             | Done             | Done             |
+| 11 |        14 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 12 |        16 | Done             | Done with honors | Done             | Done             | Done with honors |
+| 13 |        18 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 14 |        19 | Done             | Done with honors | Done with honors | Done with honors | Done             |
+| 15 |        20 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 16 |        21 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
+| 17 |        22 | Done with honors | Done with honors | Done with honors | Done with honors | Done             |
+| 18 |        23 | Done             | Done             | Done with honors | Done with honors | Done             |
+| 19 |        24 | Done             | Done             | Done             | Done             | Not competed     |
+| 20 |        26 | Done             | Done with honors | Done with honors | Done with honors | Done with honors |
+| 21 |        27 | Done with honors | Done with honors | Done with honors | Done with honors | Done with honors |
++----+-----------+------------------+------------------+------------------+------------------+------------------+
+21 rows in set (0.00 sec)
+```
