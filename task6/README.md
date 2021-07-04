@@ -150,3 +150,10 @@ mysql> SELECT * FROM Result;
 +----+-----------+------------------+------------------+------------------+------------------+------------------+
 21 rows in set (0.00 sec)
 ```
+### Writing a request by your last name will find information on completed tasks and display the result on the screen.
+``` 
+mysql -u root -p internship_db < select.sql
+Enter password:
+Student Task1   Task2   Task3   Task4   Task5
+Виталий Костюков        Done    Done with honors        Done with honors        Done with honors        Done with honors
+```
