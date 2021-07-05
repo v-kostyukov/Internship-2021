@@ -1,0 +1,36 @@
+pipeline {
+    agent {
+            label 'agent3'
+          }
+    stages {
+        stage('1-Build') {
+            steps {
+                echo "Start of Stage Build"
+                dir('task6/EXTRA/ansible') {
+                    sh """
+                        pwd
+                        ls -la
+                    """
+                }
+                echo "End of Stage Build"
+            }
+        }
+        stage('2-Test') {
+            steps {
+                echo "Start of Stage Test"
+                sh """
+                    pwd
+                    docker image ls
+                """
+                echo "End of Stage Test"
+            }
+        }
+        stage('3-Deploy') {
+            steps {
+                echo "Start of Stage Deploy"
+                echo "Deploying......."
+                echo "End of Stage Deploy"
+            }
+        }
+    }
+}
