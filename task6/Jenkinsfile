@@ -14,8 +14,14 @@ pipeline {
                         pwd
                         touch secret
                         ls -la
+                        //cat "${PASSWORD}" > secret
                     """
-                    cat "${PASSWORD}" > secret
+                   script {
+                        File file = new File('secret')
+                        file.createNewFile()
+                        //...
+                        writeFile file: "secret", text: "${PASSWORD}"
+                    }
                 }
                 echo "End of Stage Build"
             }
