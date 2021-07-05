@@ -14,8 +14,8 @@ pipeline {
                         pwd
                         touch secret
                         ls -la
-                        cat "${PASSWORD}" > secret
                     """
+                    cat "${PASSWORD}" > secret
                 }
                 echo "End of Stage Build"
             }
