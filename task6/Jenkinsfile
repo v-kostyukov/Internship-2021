@@ -4,6 +4,7 @@ pipeline {
           }
     environment {
         PASSWORD = credentials('ansible-secret')
+        FILE = credentials('secret-file')
     }
     stages {
         stage('1-Build') {
@@ -12,9 +13,9 @@ pipeline {
                 dir('task6/EXTRA/ansible') {
                     sh """
                         pwd
-                        touch secret
                         ls -la
                         ansible-inventory --graph
+                        ansible-playbook --vault-password-file ${FILE} mysql.yml
                     """
                 }
                 echo "End of Stage Build"
