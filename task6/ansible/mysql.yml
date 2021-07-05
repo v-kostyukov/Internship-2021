@@ -1,5 +1,5 @@
 ---
-- name: Install jenkins
+- name: Install mysql
   remote_user: ansible
   hosts: dbservers
   become: yes
