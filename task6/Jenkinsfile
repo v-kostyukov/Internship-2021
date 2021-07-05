@@ -12,9 +12,9 @@ pipeline {
                 dir('task6/EXTRA/ansible') {
                     sh """
                         pwd
-                        ls -la
                         touch secret
-                        cat "$PASSWORD" > secret
+                        ls -la
+                        cat "${PASSWORD}" > secret
                     """
                 }
                 echo "End of Stage Build"
