@@ -14,15 +14,8 @@ pipeline {
                         pwd
                         touch secret
                         ls -la
-                        //cat "${PASSWORD}" > secret
+                        ansible-inventory --graph
                     """
-                   script {
-                        File file = new File('secret')
-                        file.createNewFile()
-                        //...
-                        writeFile file: "secret", text: "${PASSWORD}"
-                    }
-                }
                 echo "End of Stage Build"
             }
         }
