@@ -6,5 +6,5 @@
   vars_files:
     - ./inventory/production/group_vars/dbservers.yml
   roles:
-    - docker
+#    - docker
     - mysql
