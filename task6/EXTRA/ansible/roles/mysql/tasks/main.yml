@@ -1,0 +1,104 @@
+---
+- name: Create a directories
+  tags:
+    - mysql_install
+    - mysql_create_dir
+  file:
+    path: "{{ PROJECT_DIR }}/{{ item }}"
+    state: directory
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+  - master/data
+  - master/conf.d
+  - master/log
+  - master/backup
+  - master/entrypoint
+  - slave/data
+  - slave/conf.d
+  - slave/log
+  - slave/backup
+  - slave/entrypoint
+
+- name: Create docker-compose.yml file
+  tags:
+    - mysql_install
+    - mysql_create_docker_compose
+  file:
+    path: "{{ PROJECT_DIR }}/docker-compose.yml"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    state: touch
+
+- name: Deploy Docker Compose
+  tags:
+    - mysql_install
+    - mysql_deploy_docker_compose
+  template:
+    src: docker-compose.j2
+    dest: "{{ PROJECT_DIR }}/docker-compose.yml"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Deploy master my.cnf
+  tags:
+    - mysql_install
+    - deploy_master
+  template:
+    src: master-my.j2
+    dest: "{{ PROJECT_DIR }}/master/conf.d/my.cnf"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Deploy slave my.cnf
+  tags:
+    - mysql_install
+    - deploy_slave
+  template:
+    src: slave-my.j2
+    dest: "{{ PROJECT_DIR }}/slave/conf.d/my.cnf"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Deploy master master.sql
+  tags:
+    - mysql_install
+    - deploy_master_sql
+  template:
+    src: master.sql.j2
+    dest: "{{ PROJECT_DIR }}/master/entrypoint/master.sql"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Deploy slave slave.sql
+  tags:
+    - mysql_install
+    - deploy_slave_sql
+  template:
+    src: slave.sql.j2
+    dest: "{{ PROJECT_DIR }}/slave/entrypoint/slave.sql"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Run docker-compose
+  tags:
+    - mysql_install
+    - mysql_run_docker_compose
+  command: docker-compose -f docker-compose.yml up -d
+  args:
+    chdir: "{{ PROJECT_DIR }}"
+
+
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+
+  mysql-master:
+    image: mysql
+    container_name: mysql-master
+    restart: always
+    environment:
+      MYSQL_DATABASE: {{ DB_NAME }}
+      MYSQL_USER: {{ DB_USER }}
+      MYSQL_PASSWORD: {{ DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: {{ MYSQL_ROOT_PASSWD }}
+    volumes:
+      - ./master/data:/var/lib/mysql
+      - ./master/conf.d:/etc/mysql/mysql.conf.d/
+      - ./master/log:/var/log/mysql
+      - ./master/backup:/backup
+      - ./master/entrypoint:/docker-entrypoint-initdb.d
+    ports:
+      - 3306
+    networks:
+      - dbnet
+          #ipv4_address: 172.21.0.2
+
+  mysql-slave:
+    image: mysql
+    container_name: mysql-slave
+    restart: always
+    environment:
+      MYSQL_DATABASE: {{ DB_NAME }}
+      MYSQL_USER: {{ DB_USER }}
+      MYSQL_PASSWORD: {{ DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: {{ MYSQL_ROOT_PASSWD }}
+    volumes:
+      - ./slave/data:/var/lib/mysql
+      - ./slave/conf.d:/etc/mysql/mysql.conf.d/
+      - ./slave/log:/var/log/mysql
+      - ./slave/backup:/backup
+      - ./slave/entrypoint:/docker-entrypoint-initdb.d
+    ports:
+      - 3306
+    networks:
+      - dbnet
+          #ipv4_address: 172.21.0.3
+    depends_on:
+      - mysql-master
+
+networks:
+  dbnet:
+    #driver: bridge
+    #ipam:
+    # config:
+    #   - subnet: 172.21.0.0/16
+    #     gateway: "172.21.0.1"
+
+volumes:
+  mysql-master:
+  mysql_slave:
