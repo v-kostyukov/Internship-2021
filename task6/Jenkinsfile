@@ -2,6 +2,9 @@ pipeline {
     agent {
             label 'agent3'
           }
+    environment {
+        PASSWORD = credentials('ansible-secret')
+    }
     stages {
         stage('1-Build') {
             steps {
@@ -10,6 +13,8 @@ pipeline {
                     sh """
                         pwd
                         ls -la
+                        touch secret
+                        cat "$PASSWORD" > secret
                     """
                 }
                 echo "End of Stage Build"
@@ -20,7 +25,7 @@ pipeline {
                 echo "Start of Stage Test"
                 sh """
                     pwd
-                    docker image ls
+                    docker ps
                 """
                 echo "End of Stage Test"
             }
