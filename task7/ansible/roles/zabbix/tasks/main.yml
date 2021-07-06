@@ -1,0 +1,54 @@
+---
+- name: Create a directories
+  tags:
+    - zabbix_install
+    - zabbix_create_dir
+  file:
+    path: "{{ PROJECT_DIR }}/{{ item }}"
+    state: directory
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    recurse: yes
+    mode: 0755
+  with_items:
+  - mysql
+  - zabbix
+  
+- name: Create docker-compose.yml file
+  tags:
+    - zabbix_install
+    - zabbix_create_docker_compose
+  file:
+    path: "{{ PROJECT_DIR }}/docker-compose.yml"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    state: touch
+
+- name: Deploy Docker Compose
+  tags:
+    - zabbix_install
+    - zabbix_deploy_docker_compose
+  template:
+    src: docker-compose.j2
+    dest: "{{ PROJECT_DIR }}/docker-compose.yml"
+    owner: "{{ SYSTEM_USER }}"
+    group: "{{ SYSTEM_USER }}"
+    mode: 0644
+
+- name: Run docker-compose
+  tags:
+    - zabbix_install
+    - zabbix_run_docker_compose
+  command: docker-compose -f docker-compose.yml up -d
+  args:
+    chdir: "{{ PROJECT_DIR }}"
+
+
+
+
+
+
+
+
+
+

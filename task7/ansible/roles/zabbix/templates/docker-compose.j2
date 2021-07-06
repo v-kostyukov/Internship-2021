@@ -1,0 +1,78 @@
+version: '3.9'
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: {{ DB_NAME }}
+      MYSQL_USER: {{ DB_USER }}
+      MYSQL_PASSWORD: {{ DB_PASSWORD }}
+      MYSQL_ROOT_PASSWORD: {{ MYSQL_ROOT_PASSWD }}
+    volumes:
+      - ./zabbix/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - zabbixnet
+
+  zabbix-server:
+    container_name: zabbix-server
+    image: zabbix/zabbix-server-mysql:5.4.2-ubuntu
+    restart: always
+    ports:
+      - 10051:10051
+    volumes:
+      - ./zabbix/alertscripts:/usr/lib/zabbix/alertscripts
+    environment:
+      - DB_SERVER_HOST={{ DB_HOST }}
+      - MYSQL_DATABASE={{ DB_NAME }}
+      - MYSQL_USER={{ DB_USER }}
+      - MYSQL_PASSWORD={{ DB_PASSWORD }}
+    networks:
+      - zabbixnet
+    depends_on:
+      - mysql
+
+  zabbix-frontend:
+    container_name: zabbix-frontend
+    image: zabbix/zabbix-web-nginx-mysql:5.4.2-ubuntu
+    restart: always
+    ports:
+      - 80:8080
+      - 443:8443
+    environment:
+      - DB_SERVER_HOST={{ DB_HOST }}
+      - MYSQL_DATABASE={{ DB_NAME }}
+      - MYSQL_USER={{ DB_USER }}
+      - MYSQL_PASSWORD={{ DB_PASSWORD }}
+      - PHP_TZ=Europe/Kiev
+    networks:
+      - zabbixnet
+    depends_on:
+      - mysql
+
+  zabbix-agent:
+    container_name: zabbix-agent
+    image: zabbix/zabbix-agent2:5.4.2-alpine
+    user: root
+    restart: always
+    privileged: true
+    volumes:
+      - /var/run:/var/run
+    ports:
+      - 10050:10050
+    environment:
+      - ZBX_HOSTNAME={{ ZBX_HOSTNAME }}
+      - ZBX_SERVER_HOST={{ ZBX_SERVER_HOST }}
+    networks:
+      - zabbixnet
+
+networks:
+  zabbixnet:
+
+volumes:
+  mysql:
+  zabbix-agent:
