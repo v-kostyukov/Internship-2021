@@ -66,3 +66,43 @@ CONTAINER ID   IMAGE                                        COMMAND             
 5665248abd47   mysql:5.7                                    "docker-entrypoint.s…"   About a minute ago   Up About a minute   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                             mysql
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix.png)
+### Install Zabbix agents on previously prepared servers or virtual machines
+```
+Zabbix agent docker 
+docker ps
+CONTAINER ID   IMAGE                               COMMAND                  CREATED         STATUS         PORTS                                                      NAMES
+41094018dda4   zabbix/zabbix-agent2:5.4.2-alpine   "/sbin/tini -- /usr/…"   3 seconds ago   Up 2 seconds   0.0.0.0:10050->10050/tcp, :::10050->10050/tcp, 31999/tcp   zabbix-agent
+
+Zabbix agent in Ubuntu
+systemctl status zabbix-agent
+● zabbix-agent.service - Zabbix Agent
+     Loaded: loaded (/lib/systemd/system/zabbix-agent.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2021-07-06 15:12:46 UTC; 1min 17s ago
+    Process: 647 ExecStart=/usr/sbin/zabbix_agentd -c $CONFFILE (code=exited, status=0/SUCCESS)
+   Main PID: 694 (zabbix_agentd)
+      Tasks: 6 (limit: 2279)
+     Memory: 10.4M
+     CGroup: /system.slice/zabbix-agent.service
+             ├─694 /usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf
+             ├─695 /usr/sbin/zabbix_agentd: collector [idle 1 sec]
+             ├─696 /usr/sbin/zabbix_agentd: listener #1 [waiting for connection]
+             ├─697 /usr/sbin/zabbix_agentd: listener #2 [waiting for connection]
+             ├─698 /usr/sbin/zabbix_agentd: listener #3 [waiting for connection]
+             └─699 /usr/sbin/zabbix_agentd: active checks #1 [idle 1 sec]
+
+Jul 06 15:12:42 u2004 systemd[1]: Starting Zabbix Agent...
+Jul 06 15:12:46 u2004 systemd[1]: Started Zabbix Agent.
+```
+### Config zabbix agent in Ubuntu
+``` 
+/etc/zabbix/zabbix_agentd.conf
+
+PidFile=/run/zabbix/zabbix_agentd.pid
+LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFileSize=0
+Server=192.168.0.175
+ServerActive=192.168.0.175
+Hostname=Zabbix server
+Include=/etc/zabbix/zabbix_agentd.d/*.conf
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix2.png)
