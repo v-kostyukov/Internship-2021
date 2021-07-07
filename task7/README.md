@@ -106,3 +106,7 @@ Hostname=Zabbix server
 Include=/etc/zabbix/zabbix_agentd.d/*.conf
 ```
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix2.png)
+### Make an agentless check of any resource (ICMP ping)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix3.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix4.png)
+
