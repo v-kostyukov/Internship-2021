@@ -193,3 +193,101 @@ UserParameter=mysql.slave_status[*], mysql -h"$1" -P"$2" -sNX -e "show slave sta
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix10.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix11.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix12.png)
+### Draw a dashboard with key infrastructure nodes and monitoring of both the hosts and the software installed on them
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix13.png)
+### Install and configure ELK
+``` 
+docker-compose up -d
+Creating network "elk_elk" with driver "bridge"
+Creating volume "elk_elasticsearch" with default driver
+Building elasticsearch
+Sending build context to Docker daemon  3.584kB
+Step 1/2 : ARG ELK_VERSION
+Step 2/2 : FROM docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+7.13.2: Pulling from elasticsearch/elasticsearch
+ddf49b9115d7: Pull complete
+815a15889ec1: Pull complete
+ba5d33fc5cc5: Pull complete
+976d4f887b1a: Pull complete
+9b5ee4563932: Pull complete
+ef11e8f17d0c: Pull complete
+3c5ad4db1e24: Pull complete
+Digest: sha256:1cecc2c7419a4f917a88c83180335bd491d623f28ac43ca7e0e69b4eca25fbd5
+Status: Downloaded newer image for docker.elastic.co/elasticsearch/elasticsearch:7.13.2
+ ---> 11a830014f7c
+Successfully built 11a830014f7c
+Successfully tagged elk_elasticsearch:latest
+WARNING: Image for service elasticsearch was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building logstash
+Sending build context to Docker daemon   5.12kB
+Step 1/2 : ARG ELK_VERSION
+Step 2/2 : FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
+7.13.2: Pulling from logstash/logstash
+a4f595742a5b: Pull complete
+fd1132ca70dc: Pull complete
+59f2c8c5f435: Pull complete
+8dcb71d88a4e: Pull complete
+b0d5a23a9e4a: Pull complete
+796f58e1821d: Pull complete
+29c837bdbca8: Pull complete
+9662c1cef6d1: Pull complete
+83ce4b738228: Pull complete
+4b86338e93df: Pull complete
+3b74732a4830: Pull complete
+Digest: sha256:ed75189449f64d3c188a0337054a1fb9dd7bfaf42f1c20442520f364fec014a7
+Status: Downloaded newer image for docker.elastic.co/logstash/logstash:7.13.2
+ ---> 8dc1af4dd662
+Successfully built 8dc1af4dd662
+Successfully tagged elk_logstash:latest
+WARNING: Image for service logstash was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Building kibana
+Sending build context to Docker daemon  3.584kB
+Step 1/2 : ARG ELK_VERSION
+Step 2/2 : FROM docker.elastic.co/kibana/kibana:${ELK_VERSION}
+7.13.2: Pulling from kibana/kibana
+ddf49b9115d7: Already exists
+127ce1da4c72: Pull complete
+0c32fd0051d1: Pull complete
+3cb592252c5c: Pull complete
+a497541f421d: Pull complete
+5f9af552442f: Pull complete
+3d82cb04e9f3: Pull complete
+63f1001938f4: Pull complete
+5795c0f38c9b: Pull complete
+b3f3fe288119: Pull complete
+ad9e03aedb1a: Pull complete
+b65617011d12: Pull complete
+db3a5750fdcf: Pull complete
+Digest: sha256:4a50a0f198a6536b769d8b694ae94e11f2a2bc97cf6dbe61fff98c051cdedc00
+Status: Downloaded newer image for docker.elastic.co/kibana/kibana:7.13.2
+ ---> 6c4869a27be1
+Successfully built 6c4869a27be1
+Successfully tagged elk_kibana:latest
+WARNING: Image for service kibana was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Pulling grafana (grafana/grafana:latest)...
+latest: Pulling from grafana/grafana
+540db60ca938: Already exists
+de26cbdd44be: Pull complete
+540328727979: Pull complete
+f33ada074d04: Pull complete
+23c7a28f6596: Pull complete
+4f4fb700ef54: Pull complete
+a757f53bd2f5: Pull complete
+4172f8e97c87: Pull complete
+Digest: sha256:7f290a9e077447599633b9bec400688ba5db0ea77f0120ce5a1c5106f0de7d96
+Status: Downloaded newer image for grafana/grafana:latest
+Creating elk_elasticsearch_1 ... done
+Creating elk_logstash_1      ... done
+Creating elk_kibana_1        ... done
+Creating grafana             ... done
+root@u2004:/home/ubuntu/elk# docker ps
+CONTAINER ID   IMAGE                                        COMMAND                  CREATED         STATUS                          PORTS                                                                                                                                                                        NAMES
+c2f4ac9d6231   grafana/grafana:latest                       "/run.sh"                6 minutes ago   Up 6 minutes                    0.0.0.0:3000->3000/tcp, :::3000->3000/tcp                                                                                                                                    grafana
+968d02082153   elk_kibana                                   "/bin/tini -- /usr/l…"   6 minutes ago   Up 6 minutes                    0.0.0.0:5601->5601/tcp, :::5601->5601/tcp                                                                                                                                    elk_kibana_1
+74d5cc140599   elk_logstash                                 "/usr/local/bin/dock…"   6 minutes ago   Up 6 minutes                    0.0.0.0:5000->5000/tcp, :::5000->5000/tcp, 0.0.0.0:5044->5044/tcp, :::5044->5044/tcp, 0.0.0.0:9600->9600/tcp, 0.0.0.0:5000->5000/udp, :::9600->9600/tcp, :::5000->5000/udp   elk_logstash_1
+541ec7a2c6ea   elk_elasticsearch                            "/bin/tini -- /usr/l…"   6 minutes ago   Up 6 minutes                    0.0.0.0:9200->9200/tcp, :::9200->9200/tcp, 0.0.0.0:9300->9300/tcp, :::9300->9300/tcp                                                                                         elk_elasticsearch_1
+38d3aee9f053   zabbix/zabbix-agent2:5.4.2-alpine            "/sbin/tini -- /usr/…"   44 hours ago    Restarting (1) 44 seconds ago                                                                                                                                                                                zabbix-agent
+41b1ad3d1e64   zabbix/zabbix-web-nginx-mysql:5.4.2-ubuntu   "docker-entrypoint.sh"   45 hours ago    Up 4 hours                      0.0.0.0:80->8080/tcp, :::80->8080/tcp, 0.0.0.0:443->8443/tcp, :::443->8443/tcp                                                                                               zabbix-frontend
+4fa5bd6d0f41   zabbix/zabbix-server-mysql:5.4.2-ubuntu      "/usr/bin/tini -- /u…"   45 hours ago    Up 4 hours                      0.0.0.0:10051->10051/tcp, :::10051->10051/tcp                                                                                                                                zabbix-server
+5665248abd47   mysql:5.7                                    "docker-entrypoint.s…"   45 hours ago    Up 4 hours                      0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                                         mysql
+```
