@@ -109,4 +109,83 @@ Include=/etc/zabbix/zabbix_agentd.d/*.conf
 ### Make an agentless check of any resource (ICMP ping)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix3.png)
 ![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix4.png)
+### Active check vs passive check
+``` 
+Passive checks
+Zabbix passive checks is the default setting. With this enabled, in /etc/zabbix/zabbix_agentd.conf, the zabbix-server will query for information about an item which is configured on the zabbix server.
+Passive check is a simple data request. Zabbix Server (or Proxy) asks for a data, for example, CPU load, and Zabbix Agent sends the result back to the Server.
+Server Request
+<item key>\n
+Agent Response
+<HEADER><DATALEN><DATA>
 
+For example:
+
+1. Server opens TCP connection
+2. Server sends agent.ping\n
+3. Agent reads the request and responds with <HEADER><DATALEN>1
+4. Server processes data to get the value, '1' in our case
+5. TCP connection is closed
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix4.png)
+``` 
+Active check
+Active checks requires more complex processing. The Agent must retrieve list of items for independent processing first. It also periodically sends new values to the Server.
+Agent Request
+<HEADER><DATALEN>{
+   "request":"active checks",
+   "host":"<hostname>"
+}
+Server Response
+{
+    "response":"success",
+    "data":[
+    {
+        "key":"log[\/home\/zabbix\/logs\/zabbix_agentd.log]",
+        "delay":"30",
+        "lastlogsize":"0"
+    },
+    {
+        "key":"agent.version",
+        "delay":"600"
+    }
+    ]
+}
+
+For example:
+1. Agent opens TCP connection
+2. Agent asks for the list of checks
+3. Server responds with a list of items (item key, delay)
+4. Agent parses the response
+5. TCP connection is closed
+6. Agent starts periodical collection of data
+
+systemctl status zabbix-agent
+● zabbix-agent.service - Zabbix Agent
+     Loaded: loaded (/lib/systemd/system/zabbix-agent.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2021-07-07 21:11:27 UTC; 17min ago
+    Process: 664 ExecStart=/usr/sbin/zabbix_agentd -c $CONFFILE (code=exited, status=0/SUCCESS)
+   Main PID: 739 (zabbix_agentd)
+      Tasks: 6 (limit: 2279)
+     Memory: 16.8M
+     CGroup: /system.slice/zabbix-agent.service
+             ├─739 /usr/sbin/zabbix_agentd -c /etc/zabbix/zabbix_agentd.conf
+             ├─740 /usr/sbin/zabbix_agentd: collector [idle 1 sec]
+             ├─741 /usr/sbin/zabbix_agentd: listener #1 [waiting for connection]
+             ├─742 /usr/sbin/zabbix_agentd: listener #2 [waiting for connection]
+             ├─743 /usr/sbin/zabbix_agentd: listener #3 [waiting for connection]
+             └─744 /usr/sbin/zabbix_agentd: active checks #1 [idle 1 sec]
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix9.png)
+### Make several of your own dashboards, where to output data from your triggers
+``` 
+/etc/zabbix/zabbix_agentd.d/template_db_mysql.conf
+UserParameter=mysql.ping[*], mysqladmin -h"$1" -P"$2" ping
+UserParameter=mysql.get_status_variables[*], mysql -h"$1" -P"$2" -sNX -e "show global status"
+UserParameter=mysql.version[*], mysqladmin -s -h"$1" -P"$2" version
+UserParameter=mysql.db.discovery[*], mysql -h"$1" -P"$2" -sN -e "show databases"
+UserParameter=mysql.dbsize[*], mysql -h"$1" -P"$2" -sN -e "SELECT COALESCE(SUM(DATA_LENGTH + INDEX_LENGTH),0) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='internship_db'"
+UserParameter=mysql.replication.discovery[*], mysql -h"$1" -P"$2" -sNX -e "show slave status"
+UserParameter=mysql.slave_status[*], mysql -h"$1" -P"$2" -sNX -e "show slave status"
+```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix4.png)
