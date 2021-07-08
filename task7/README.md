@@ -291,3 +291,8 @@ c2f4ac9d6231   grafana/grafana:latest                       "/run.sh"           
 4fa5bd6d0f41   zabbix/zabbix-server-mysql:5.4.2-ubuntu      "/usr/bin/tini -- /u…"   45 hours ago    Up 4 hours                      0.0.0.0:10051->10051/tcp, :::10051->10051/tcp                                                                                                                                zabbix-server
 5665248abd47   mysql:5.7                                    "docker-entrypoint.s…"   45 hours ago    Up 4 hours                      0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                                         mysql
 ```
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/elk1.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/elk2.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/elk3.png)
+
+
