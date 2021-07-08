@@ -188,4 +188,4 @@ UserParameter=mysql.dbsize[*], mysql -h"$1" -P"$2" -sN -e "SELECT COALESCE(SUM(D
 UserParameter=mysql.replication.discovery[*], mysql -h"$1" -P"$2" -sNX -e "show slave status"
 UserParameter=mysql.slave_status[*], mysql -h"$1" -P"$2" -sNX -e "show slave status"
 ```
-![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix4.png)
+![screen shot web page](https://github.com/v-kostyukov/Internship-2021/blob/master/task7/img/zabbix7.png)
