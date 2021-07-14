@@ -1,0 +1,13 @@
+FROM python:3.9.6-alpine3.13
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /code
+CD /code
+WORKDIR /code/
+
+COPY ./django/ .
+
+RUN apk add --no-cache --virtual .build-deps \
+    ca-certificates gcc postgresql-dev linux-headers musl-dev \
+    libffi-dev jpeg-dev zlib-dev \
+    && python -m pip install -e django/
