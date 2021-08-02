@@ -215,3 +215,24 @@ sudo nano /etc/zabbix/zabbix_agentd.conf
 sudo systemctl restart zabbix-agent
 sudo systemctl enable zabbix-agent  
 ```
+### Task 8: Kubernetes
+### Get-commands
+``` 
+kubectl get services                  # Вывести все сервисы в пространстве имён
+kubectl get pods --all-namespaces     # Вывести все поды во всех пространств имён
+kubectl get pods -o wide              # Вывести все поды в текущем пространстве имён с подробностями
+kubectl get deployment my-dep         # Вывести определённое развёртывание
+kubectl get pods                      # Вывести все поды в пространстве имён
+kubectl get pod my-pod -o yaml        # Получить информацию по поду в формате YAML
+kubectl get node                      # Получить все рабочие узлы
+```
+### Creation, apply
+``` 
+kubectl apply -f ./my-manifest.yaml            # создать ресурсы
+kubectl apply -f ./my1.yaml -f ./my2.yaml      # создать ресурсы из нескольких файлов
+kubectl apply -f ./dir                         # создать ресурсы из всех файлов манифеста в директории
+kubectl apply -f https://git.io/vPieo          # создать ресурсы из URL-адреса
+kubectl create deployment nginx --image=nginx  # запустить один экземпляр nginx
+kubectl explain pods                           # посмотреть документацию по манифестам подов
+```
+
